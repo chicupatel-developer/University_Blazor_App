@@ -1,0 +1,58 @@
+﻿@page "/"
+
+<h3>University-Students</h3>
+
+
+@inject DataAccess.Contracts.IStudentService studentService
+@using DataAccess.Models
+@inject MudBlazor.ISnackbar snackBar
+
+
+<MudTable 
+          Elevation="25" 
+          Items="GetStudents()" 
+          @bind-student="student">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">List of Students</MudText>
+        <MudToolBarSpacer />        
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh>#</MudTh>
+        <MudTh>First Name</MudTh>
+        <MudTh>Last Name</MudTh>
+        <MudTh>Phone Number</MudTh>
+        <MudTh>Email</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Id">@context.StudentId</MudTd>
+        <MudTd DataLabel="FirstName">@context.FirstName</MudTd>
+        <MudTd DataLabel="LastName">@context.LastName</MudTd>
+        <MudTd DataLabel="PhoneNumber">@context.PhoneNumber</MudTd>
+        <MudTd DataLabel="PhoneNumber">@HandleNull(@context.Email)</MudTd>
+    </RowTemplate>
+</MudTable>
+
+
+@code{
+
+    private Student student = new Student();
+    private List<Student> students = new List<Student>();
+    protected override async Task OnInitializedAsync()
+    {
+        GetStudents();
+    }
+    private List<Student> GetStudents()
+    {
+        students = studentService.GetStudents();
+        return students;
+    }
+
+    private string HandleNull(string value)
+    {
+        if (value == null || value == "")
+            return "N/A";
+        else
+            return value;
+    }
+
+}
