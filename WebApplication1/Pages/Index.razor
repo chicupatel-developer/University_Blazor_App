@@ -8,15 +8,16 @@
 @inject MudBlazor.ISnackbar snackBar
 
 
-<MudTable 
-          Elevation="25" 
-          Items="GetStudents()" 
+
+<MudTable Elevation="25"
+          Items="GetStudents()"
           @bind-student="student">
     <ToolBarContent>
         <MudText Typo="Typo.h6">List of Students</MudText>
-        <MudToolBarSpacer />        
+        <MudToolBarSpacer />
     </ToolBarContent>
     <HeaderContent>
+        <MudTh></MudTh>
         <MudTh>#</MudTh>
         <MudTh>First Name</MudTh>
         <MudTh>Last Name</MudTh>
@@ -24,7 +25,15 @@
         <MudTh>Email</MudTh>
     </HeaderContent>
     <RowTemplate>
-        <MudTd DataLabel="Id">@context.StudentId</MudTd>
+        <MudTd>
+            <MudCheckBox 
+                         @bind-Checked="@context.IsSelected" 
+                         Label="@context.StudentId.ToString()" 
+                         Color="Color.Default" />
+        </MudTd>
+        <MudTd DataLabel="Id">
+            @context.StudentId
+        </MudTd>
         <MudTd DataLabel="FirstName">@context.FirstName</MudTd>
         <MudTd DataLabel="LastName">@context.LastName</MudTd>
         <MudTd DataLabel="PhoneNumber">@context.PhoneNumber</MudTd>
@@ -35,16 +44,48 @@
 
 @code{
 
+
+    public bool Dense { get; set; }
+
+
+    public class Student_
+    {
+        public bool IsSelected { get; set; }
+        public int StudentId { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Email { get; set; }
+    }
+
+    public List<Student_> students_ = new List<Student_>();
     private Student student = new Student();
     private List<Student> students = new List<Student>();
     protected override async Task OnInitializedAsync()
     {
         GetStudents();
     }
-    private List<Student> GetStudents()
+    private List<Student_> GetStudents()
     {
         students = studentService.GetStudents();
-        return students;
+
+        foreach(var std in students)
+        {
+            students_.Add(new Student_()
+            {
+                IsSelected =false,
+                Email = std.Email,
+                FirstName = std.FirstName,
+                LastName = std.LastName,
+                PhoneNumber = std.PhoneNumber,
+                StudentId = std.StudentId
+
+            });
+        }
+
+
+        // return students;
+        return students_;
     }
 
     private string HandleNull(string value)

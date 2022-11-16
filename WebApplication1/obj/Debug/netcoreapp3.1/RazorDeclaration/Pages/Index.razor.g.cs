@@ -98,19 +98,51 @@ using DataAccess.Models;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 36 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Index.razor"
+#line 45 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Index.razor"
       
 
+
+    public bool Dense { get; set; }
+
+
+    public class Student_
+    {
+        public bool IsSelected { get; set; }
+        public int StudentId { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Email { get; set; }
+    }
+
+    public List<Student_> students_ = new List<Student_>();
     private Student student = new Student();
     private List<Student> students = new List<Student>();
     protected override async Task OnInitializedAsync()
     {
         GetStudents();
     }
-    private List<Student> GetStudents()
+    private List<Student_> GetStudents()
     {
         students = studentService.GetStudents();
-        return students;
+
+        foreach(var std in students)
+        {
+            students_.Add(new Student_()
+            {
+                IsSelected =false,
+                Email = std.Email,
+                FirstName = std.FirstName,
+                LastName = std.LastName,
+                PhoneNumber = std.PhoneNumber,
+                StudentId = std.StudentId
+
+            });
+        }
+
+
+        // return students;
+        return students_;
     }
 
     private string HandleNull(string value)
