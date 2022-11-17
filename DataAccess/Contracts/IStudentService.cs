@@ -9,5 +9,6 @@ namespace DataAccess.Contracts
     {
         List<Student> GetStudents();
         Student GetStudent(int id);
+        List<Transaction> GetStudentTransactions(int id);
     }
 }

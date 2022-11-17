@@ -9,8 +9,9 @@
 
 
 <MudPaper Square="true" Class="d-flex justify-space-around">
-
+    <!-- students -->
     <MudTable Items="@GetStudents()"
+              @onclick="@( (x) => ClickEvent(selectedItems1.FirstOrDefault() ?? null))"
               Height="350px"
               Breakpoint="Breakpoint.Sm"
               MultiSelection="true"
@@ -49,26 +50,57 @@
 
 </MudPaper>
 
+<!-- transactions for selected student-->
 <MudGrid>
     <MudItem xs="12">
-        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
-            <MudText Inline="true">
-                Selected items:
-                @(selectedItems1 == null ? "" : string.Join(", ", selectedItems1.OrderBy(x => x.StudentId).Select(x => x.FirstName)))
-            </MudText>
-        </MudPaper>
+        @if (transactions!=null && transactions.Count()>0)
+        {
+            <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
+                <MudTable Items="@transactions"
+                      Height="350px"
+                      Breakpoint="Breakpoint.Sm">
+                <HeaderContent>
+                    <MudTh>Tr #</MudTh>
+                    <MudTh>Student #</MudTh>
+                    <MudTh>Credit</MudTh>
+                    <MudTh>Debit</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd DataLabel="TransactionId">@context.TransactionId</MudTd>
+                    <MudTd DataLabel="StudentId">@context.StudentId</MudTd>
+                    <MudTd DataLabel="CreditAmount">@context.CreditAmount</MudTd>
+                    <MudTd DataLabel="DebitAmount">@context.DebitAmount</MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudTablePager PageSizeOptions="new int[] { 50, 100 }" />
+                </PagerContent>
+            </MudTable>
+            </MudPaper>
+        }
+        else{
+            <MudPaper>
+                <MudCard>
+                    <MudCardContent>
+                        <MudText>Data Not Available!</MudText>                       
+                    </MudCardContent>                 
+                </MudCard>
+            </MudPaper>
+        }
     </MudItem>   
 </MudGrid>
 
 
 @code{
-  
+
     private bool hover = true;
     private HashSet<Student> selectedItems1 = new HashSet<Student>();
 
 
     private Student student = new Student();
     private List<Student> students = new List<Student>();
+    public List<Transaction> transactions = new List<Transaction>();
+
+
     protected override async Task OnInitializedAsync()
     {
         GetStudents();
@@ -91,6 +123,32 @@
             return "N/A";
         else
             return value;
+    }
+
+
+    private void ClickEvent(Student model)
+    {
+        if (model == null)
+            return;
+        else
+        {
+            transactions = new List<Transaction>();
+            GetStudentTransactions();
+        }
+    }
+    private List<Transaction> GetStudentTransactions()
+    {
+        if (selectedItems1.FirstOrDefault() != null)
+        {
+            transactions = studentService.GetStudentTransactions(selectedItems1.FirstOrDefault().StudentId);
+
+
+            return transactions;
+        }
+        else
+        {
+            return new List<Transaction>();
+        }
     }
 }
 

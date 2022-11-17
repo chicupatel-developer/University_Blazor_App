@@ -98,15 +98,18 @@ using DataAccess.Models;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 64 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Index.razor"
+#line 93 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Index.razor"
       
-  
+
     private bool hover = true;
     private HashSet<Student> selectedItems1 = new HashSet<Student>();
 
 
     private Student student = new Student();
     private List<Student> students = new List<Student>();
+    public List<Transaction> transactions = new List<Transaction>();
+
+
     protected override async Task OnInitializedAsync()
     {
         GetStudents();
@@ -129,6 +132,32 @@ using DataAccess.Models;
             return "N/A";
         else
             return value;
+    }
+
+
+    private void ClickEvent(Student model)
+    {
+        if (model == null)
+            return;
+        else
+        {
+            transactions = new List<Transaction>();
+            GetStudentTransactions();
+        }
+    }
+    private List<Transaction> GetStudentTransactions()
+    {
+        if (selectedItems1.FirstOrDefault() != null)
+        {
+            transactions = studentService.GetStudentTransactions(selectedItems1.FirstOrDefault().StudentId);
+
+
+            return transactions;
+        }
+        else
+        {
+            return new List<Transaction>();
+        }
     }
 
 #line default

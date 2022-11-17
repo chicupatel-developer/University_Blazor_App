@@ -24,5 +24,19 @@ namespace DataAccess.Services
         {
             return _dbContext.Students.Where(x => x.StudentId == id).FirstOrDefault();
         }
+
+        public List<Transaction> GetStudentTransactions(int id)
+        {
+            var transactions = _dbContext.Transactions
+                                    .Where(x => x.StudentId == id);
+            if(transactions!=null && transactions.Count() > 0)
+            {
+                return transactions.ToList();
+            }
+            else
+            {
+                return new List<Transaction>();
+            }
+        }
     }
 }
