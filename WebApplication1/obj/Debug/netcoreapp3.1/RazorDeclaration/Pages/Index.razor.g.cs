@@ -98,9 +98,9 @@ using DataAccess.Models;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 41 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Index.razor"
+#line 64 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Index.razor"
       
-
+  
     private bool hover = true;
     private HashSet<Student> selectedItems1 = new HashSet<Student>();
 
@@ -130,9 +130,6 @@ using DataAccess.Models;
         else
             return value;
     }
-
-
-
 
 #line default
 #line hidden

@@ -12,5 +12,6 @@ namespace DataAccess
         {
         }
         public DbSet<Student> Students { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
     }
 }
