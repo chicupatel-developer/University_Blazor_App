@@ -98,7 +98,7 @@ using DataAccess.Models;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 93 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Index.razor"
+#line 95 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Index.razor"
       
 
     private bool hover = true;
@@ -137,13 +137,8 @@ using DataAccess.Models;
 
     private void ClickEvent(Student model)
     {
-        if (model == null)
-            return;
-        else
-        {
-            transactions = new List<Transaction>();
-            GetStudentTransactions();
-        }
+        transactions = new List<Transaction>();
+        GetStudentTransactions();
     }
     private List<Transaction> GetStudentTransactions()
     {

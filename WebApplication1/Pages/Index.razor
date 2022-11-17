@@ -11,7 +11,7 @@
 <MudPaper Square="true" Class="d-flex justify-space-around">
     <!-- students -->
     <MudTable Items="@GetStudents()"
-              @onclick="@( (x) => ClickEvent(selectedItems1.FirstOrDefault() ?? null))"
+              @onclick="@( (x) => ClickEvent(selectedItems1.FirstOrDefault()))"
               Height="350px"
               Breakpoint="Breakpoint.Sm"
               MultiSelection="true"
@@ -62,12 +62,14 @@
                 <HeaderContent>
                     <MudTh>Tr #</MudTh>
                     <MudTh>Student #</MudTh>
+                    <MudTh>GL ACCT NO</MudTh>
                     <MudTh>Credit</MudTh>
                     <MudTh>Debit</MudTh>
                 </HeaderContent>
                 <RowTemplate>
                     <MudTd DataLabel="TransactionId">@context.TransactionId</MudTd>
                     <MudTd DataLabel="StudentId">@context.StudentId</MudTd>
+                    <MudTd DataLabel="GLACCTNO">@context.GLACCTNO</MudTd>
                     <MudTd DataLabel="CreditAmount">@context.CreditAmount</MudTd>
                     <MudTd DataLabel="DebitAmount">@context.DebitAmount</MudTd>
                 </RowTemplate>
@@ -128,13 +130,8 @@
 
     private void ClickEvent(Student model)
     {
-        if (model == null)
-            return;
-        else
-        {
-            transactions = new List<Transaction>();
-            GetStudentTransactions();
-        }
+        transactions = new List<Transaction>();
+        GetStudentTransactions();
     }
     private List<Transaction> GetStudentTransactions()
     {
