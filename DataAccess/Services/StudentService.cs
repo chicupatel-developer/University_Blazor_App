@@ -18,6 +18,11 @@ namespace DataAccess.Services
         public List<Student> GetStudents()
         {
             return _dbContext.Students.ToList();
-        }      
+        }   
+        
+        public Student GetStudent(int id)
+        {
+            return _dbContext.Students.Where(x => x.StudentId == id).FirstOrDefault();
+        }
     }
 }

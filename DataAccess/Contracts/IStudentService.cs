@@ -8,5 +8,6 @@ namespace DataAccess.Contracts
     public interface IStudentService
     {
         List<Student> GetStudents();
+        Student GetStudent(int id);
     }
 }
