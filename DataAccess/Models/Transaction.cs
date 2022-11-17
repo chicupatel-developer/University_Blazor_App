@@ -21,5 +21,7 @@ namespace DataAccess.Models
         public decimal? CreditAmount { get; set; }
         public decimal? DebitAmount { get; set; }
         public string Description { get; set; }
+
+        public string GLACCTNO { get; set; }
     }
 }
