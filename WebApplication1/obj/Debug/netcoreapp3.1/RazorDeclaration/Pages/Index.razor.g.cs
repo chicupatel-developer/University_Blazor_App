@@ -105,7 +105,7 @@ using DataAccess.DTO;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 112 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Index.razor"
+#line 119 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Index.razor"
       
 
     private bool hover = true;
@@ -145,7 +145,7 @@ using DataAccess.DTO;
 
     private void ClickEvent(Student model)
     {
-        // transaction-summary
+        // transaction-summary for all selected-students
         selectedIds = new HashSet<int>();
         foreach(var s in selectedStudents)
         {
@@ -160,8 +160,7 @@ using DataAccess.DTO;
     private List<Transaction> GetStudentTransactions(Student model)
     {
         if (model != null)
-        {
-            // transactions = studentService.GetStudentTransactions(selectedItems1.LastOrDefault().StudentId);
+        {            
             transactions = studentService.GetStudentTransactions(model.StudentId);
             return transactions;
         }

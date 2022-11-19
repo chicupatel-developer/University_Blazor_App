@@ -40,28 +40,35 @@
     <MudDivider Vertical="true" FlexItem="true" />
 
     <MudCard>
-        <!-- transaction-summary -->
-        <MudTable Items="@transactionSummary"
-                  Height="350px"
-                  Breakpoint="Breakpoint.Sm"
-                  Hover="@hover">
-            <HeaderContent>
-                <MudTh>GLACCTNO</MudTh>
-                <MudTh>Credit</MudTh>
-                <MudTh>Debit</MudTh>
-            </HeaderContent>
-            <RowTemplate>
-                <MudTd DataLabel="GLACCTNO">@context.GLACCTNO</MudTd>
-                <MudTd DataLabel="Credit">@context.TotalCreditAmount</MudTd>
-                <MudTd DataLabel="Debit">@context.TotalDebitAmount</MudTd>
-            </RowTemplate>
-        </MudTable>
-
-
-
-        <MudText Inline="true">Selected Ids: @(selectedIds==null ? "" : string.Join(", ", selectedIds.Select(x=>x)))</MudText>
-
-
+        <!-- transaction-summary for all selected-students -->
+        @if (transactions != null && transactions.Count() > 0)
+        {
+            <MudTable Items="@transactionSummary"
+                      Height="350px"
+                      Breakpoint="Breakpoint.Sm"
+                      Hover="@hover">
+                <HeaderContent>
+                    <MudTh>GLACCTNO</MudTh>
+                    <MudTh>Credit</MudTh>
+                    <MudTh>Debit</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd DataLabel="GLACCTNO">@context.GLACCTNO</MudTd>
+                    <MudTd DataLabel="Credit">@context.TotalCreditAmount</MudTd>
+                    <MudTd DataLabel="Debit">@context.TotalDebitAmount</MudTd>
+                </RowTemplate>
+            </MudTable>
+        }
+        else
+        {
+            <MudPaper>
+                <MudCard>
+                    <MudCardContent>
+                        <MudText>Transaction Summary Data Not Available!</MudText>
+                    </MudCardContent>
+                </MudCard>
+            </MudPaper>
+        }
     </MudCard>
 
 </MudPaper>
@@ -148,7 +155,7 @@
 
     private void ClickEvent(Student model)
     {
-        // transaction-summary
+        // transaction-summary for all selected-students
         selectedIds = new HashSet<int>();
         foreach(var s in selectedStudents)
         {
@@ -163,8 +170,7 @@
     private List<Transaction> GetStudentTransactions(Student model)
     {
         if (model != null)
-        {
-            // transactions = studentService.GetStudentTransactions(selectedItems1.LastOrDefault().StudentId);
+        {            
             transactions = studentService.GetStudentTransactions(model.StudentId);
             return transactions;
         }
