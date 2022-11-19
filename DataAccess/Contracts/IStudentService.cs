@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using DataAccess.DTO;
 
 namespace DataAccess.Contracts
 {
@@ -10,5 +11,7 @@ namespace DataAccess.Contracts
         List<Student> GetStudents();
         Student GetStudent(int id);
         List<Transaction> GetStudentTransactions(int id);
+
+        List<TransactionSummary> GetTransactionsSummary(List<int> ids);
     }
 }

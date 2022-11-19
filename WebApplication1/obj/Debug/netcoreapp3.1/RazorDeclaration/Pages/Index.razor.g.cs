@@ -89,6 +89,13 @@ using DataAccess.Models;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 8 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Index.razor"
+using DataAccess.DTO;
+
+#line default
+#line hidden
+#nullable disable
     [Microsoft.AspNetCore.Components.RouteAttribute("/")]
     public partial class Index : Microsoft.AspNetCore.Components.ComponentBase
     {
@@ -98,16 +105,17 @@ using DataAccess.Models;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 95 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Index.razor"
+#line 112 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Index.razor"
       
 
     private bool hover = true;
-    private HashSet<Student> selectedItems1 = new HashSet<Student>();
-
+    private HashSet<Student> selectedStudents = new HashSet<Student>();
+    private HashSet<int> selectedIds = new HashSet<int>();
 
     private Student student = new Student();
     private List<Student> students = new List<Student>();
     public List<Transaction> transactions = new List<Transaction>();
+    List<TransactionSummary> transactionSummary = new List<TransactionSummary>();
 
 
     protected override async Task OnInitializedAsync()
@@ -137,16 +145,24 @@ using DataAccess.Models;
 
     private void ClickEvent(Student model)
     {
-        transactions = new List<Transaction>();
-        GetStudentTransactions();
-    }
-    private List<Transaction> GetStudentTransactions()
-    {
-        if (selectedItems1.FirstOrDefault() != null)
+        // transaction-summary
+        selectedIds = new HashSet<int>();
+        foreach(var s in selectedStudents)
         {
-            transactions = studentService.GetStudentTransactions(selectedItems1.FirstOrDefault().StudentId);
+            selectedIds.Add(s.StudentId);
+        }
+        List<int> selectedIdsOfList = selectedIds.ToList();
+        transactionSummary = studentService.GetTransactionsSummary(selectedIdsOfList);
 
-
+        transactions = new List<Transaction>();
+        GetStudentTransactions(model);
+    }
+    private List<Transaction> GetStudentTransactions(Student model)
+    {
+        if (model != null)
+        {
+            // transactions = studentService.GetStudentTransactions(selectedItems1.LastOrDefault().StudentId);
+            transactions = studentService.GetStudentTransactions(model.StudentId);
             return transactions;
         }
         else
