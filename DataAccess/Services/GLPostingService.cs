@@ -40,6 +40,13 @@ namespace DataAccess.Services
             }
         }
 
+
+        /*
+            select GLACCTNO, sum(Debit), sum(Credit) 
+            from GLPS_Datas
+            -- where PostingsId in (1,2,3,4)
+            group by GLACCTNO
+        */
         public List<TransactionSummary> GetTransactionsSummary(List<int> ids)
         {
             List<TransactionSummary> transactionSummary = new List<TransactionSummary>();

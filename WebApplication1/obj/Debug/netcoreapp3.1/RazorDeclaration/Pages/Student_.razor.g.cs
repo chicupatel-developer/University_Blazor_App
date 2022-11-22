@@ -105,11 +105,12 @@ using DataAccess.DTO;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 119 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Student_.razor"
+#line 127 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Student_.razor"
       
 
     private bool hover = true;
     private HashSet<Student> selectedStudents = new HashSet<Student>();
+    private Student selectedStudent = new Student();
     private HashSet<int> selectedIds = new HashSet<int>();
 
     private Student student = new Student();
@@ -153,9 +154,29 @@ using DataAccess.DTO;
         }
         List<int> selectedIdsOfList = selectedIds.ToList();
         transactionSummary = studentService.GetTransactionsSummary(selectedIdsOfList);
+               
 
-        transactions = new List<Transaction>();
-        GetStudentTransactions(model);
+        var flag = false;
+        foreach (var sid in selectedIdsOfList)
+        {
+            if (sid == selectedStudent.StudentId)
+            {
+                flag = true;
+                break;
+            }
+            else
+            {
+                flag = false;
+            }
+        }
+        if (flag)
+        {
+            GetStudentTransactions(selectedStudent);
+        }
+        else
+        {
+            GetStudentTransactions(model);
+        }
     }
     private List<Transaction> GetStudentTransactions(Student model)
     {

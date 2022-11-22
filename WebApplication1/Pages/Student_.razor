@@ -17,6 +17,7 @@
               Breakpoint="Breakpoint.Sm"
               MultiSelection="true"
               @bind-SelectedItems="selectedStudents"
+              @bind-SelectedItem="selectedStudent"
               Hover="@hover">
         <HeaderContent>
             <MudTh>#</MudTh>
@@ -73,6 +74,13 @@
 
 </MudPaper>
 
+
+@if (selectedStudent != null)
+{
+    <span>Last Selected Student: @selectedStudent.FirstName</span>
+    <br />
+}
+
 <!-- transactions for selected student-->
 <MudGrid>
     <MudItem xs="12">
@@ -120,6 +128,7 @@
 
     private bool hover = true;
     private HashSet<Student> selectedStudents = new HashSet<Student>();
+    private Student selectedStudent = new Student();
     private HashSet<int> selectedIds = new HashSet<int>();
 
     private Student student = new Student();
@@ -163,9 +172,29 @@
         }
         List<int> selectedIdsOfList = selectedIds.ToList();
         transactionSummary = studentService.GetTransactionsSummary(selectedIdsOfList);
+               
 
-        transactions = new List<Transaction>();
-        GetStudentTransactions(model);
+        var flag = false;
+        foreach (var sid in selectedIdsOfList)
+        {
+            if (sid == selectedStudent.StudentId)
+            {
+                flag = true;
+                break;
+            }
+            else
+            {
+                flag = false;
+            }
+        }
+        if (flag)
+        {
+            GetStudentTransactions(selectedStudent);
+        }
+        else
+        {
+            GetStudentTransactions(model);
+        }
     }
     private List<Transaction> GetStudentTransactions(Student model)
     {

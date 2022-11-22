@@ -105,11 +105,12 @@ using DataAccess.DTO;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 119 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\GLAcctData_.razor"
+#line 120 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\GLAcctData_.razor"
       
 
     private bool hover = true;
     private HashSet<GL_Posting> selectedGL_Postings = new HashSet<GL_Posting>();
+    private GL_Posting selectedGL_Posting = new GL_Posting();
     private HashSet<int> selectedIds = new HashSet<int>();
 
     private GL_Posting gl_posting = new GL_Posting();
@@ -147,8 +148,27 @@ using DataAccess.DTO;
         List<int> selectedIdsOfList = selectedIds.ToList();
         transactionSummary = glPostingService.GetTransactionsSummary(selectedIdsOfList);
 
-        glps_datas = new List<GLPS_Data>();
-        GetGLPS_Datas(model);
+        var flag = false;
+        foreach (var pid in selectedIdsOfList)
+        {
+            if (pid == selectedGL_Posting.PostingsId)
+            {
+                flag = true;
+                break;
+            }
+            else
+            {
+                flag = false;
+            }
+        }
+        if (flag)
+        {
+            GetGLPS_Datas(selectedGL_Posting);
+        }
+        else
+        {
+            GetGLPS_Datas(model);
+        }
     }
     private List<GLPS_Data> GetGLPS_Datas(GL_Posting model)
     {
