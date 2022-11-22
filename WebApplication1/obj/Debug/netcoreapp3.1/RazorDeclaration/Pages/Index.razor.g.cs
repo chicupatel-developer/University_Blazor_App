@@ -82,20 +82,6 @@ using MudBlazor;
 #line default
 #line hidden
 #nullable disable
-#nullable restore
-#line 7 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Index.razor"
-using DataAccess.Models;
-
-#line default
-#line hidden
-#nullable disable
-#nullable restore
-#line 8 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Index.razor"
-using DataAccess.DTO;
-
-#line default
-#line hidden
-#nullable disable
     [Microsoft.AspNetCore.Components.RouteAttribute("/")]
     public partial class Index : Microsoft.AspNetCore.Components.ComponentBase
     {
@@ -104,77 +90,6 @@ using DataAccess.DTO;
         {
         }
         #pragma warning restore 1998
-#nullable restore
-#line 119 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Index.razor"
-      
-
-    private bool hover = true;
-    private HashSet<Student> selectedStudents = new HashSet<Student>();
-    private HashSet<int> selectedIds = new HashSet<int>();
-
-    private Student student = new Student();
-    private List<Student> students = new List<Student>();
-    public List<Transaction> transactions = new List<Transaction>();
-    List<TransactionSummary> transactionSummary = new List<TransactionSummary>();
-
-
-    protected override async Task OnInitializedAsync()
-    {
-        GetStudents();
-    }
-    private List<Student> GetStudents()
-    {
-        students = studentService.GetStudents();
-
-        return students;
-    }
-    private Student GetStudent(int id)
-    {
-        student = studentService.GetStudent(id);
-
-        return student;
-    }
-    private string HandleNull(string value)
-    {
-        if (value == null || value == "")
-            return "N/A";
-        else
-            return value;
-    }
-
-
-    private void ClickEvent(Student model)
-    {
-        // transaction-summary for all selected-students
-        selectedIds = new HashSet<int>();
-        foreach(var s in selectedStudents)
-        {
-            selectedIds.Add(s.StudentId);
-        }
-        List<int> selectedIdsOfList = selectedIds.ToList();
-        transactionSummary = studentService.GetTransactionsSummary(selectedIdsOfList);
-
-        transactions = new List<Transaction>();
-        GetStudentTransactions(model);
-    }
-    private List<Transaction> GetStudentTransactions(Student model)
-    {
-        if (model != null)
-        {            
-            transactions = studentService.GetStudentTransactions(model.StudentId);
-            return transactions;
-        }
-        else
-        {
-            return new List<Transaction>();
-        }
-    }
-
-#line default
-#line hidden
-#nullable disable
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private MudBlazor.ISnackbar snackBar { get; set; }
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private DataAccess.Contracts.IStudentService studentService { get; set; }
     }
 }
 #pragma warning restore 1591

@@ -1,184 +1,31 @@
 ﻿@page "/"
 
-<h3>University-Students</h3>
-
-
-@inject DataAccess.Contracts.IStudentService studentService
-@using DataAccess.Models
-@using DataAccess.DTO
-@inject MudBlazor.ISnackbar snackBar
-
-
-<MudPaper Square="true" Class="d-flex justify-space-around">
-    <!-- students -->
-    <MudTable Items="@GetStudents()"
-              @onclick="@( (x) => ClickEvent(selectedStudents.LastOrDefault()))"
-              Height="350px"
-              Breakpoint="Breakpoint.Sm"
-              MultiSelection="true"
-              @bind-SelectedItems="selectedStudents"
-              Hover="@hover">
-        <HeaderContent>
-            <MudTh>#</MudTh>
-            <MudTh>First Name</MudTh>
-            <MudTh>Last Name</MudTh>
-            <MudTh>Phone</MudTh>
-            <MudTh>Email</MudTh>
-        </HeaderContent>
-        <RowTemplate>
-            <MudTd DataLabel="StudentId">@context.StudentId</MudTd>
-            <MudTd DataLabel="FirstName">@context.FirstName</MudTd>
-            <MudTd DataLabel="LastName">@context.LastName</MudTd>
-            <MudTd DataLabel="PhoneNumber">@context.PhoneNumber</MudTd>
-            <MudTd DataLabel="Email">@context.Email</MudTd>
-        </RowTemplate>
-        <PagerContent>
-            <MudTablePager PageSizeOptions="new int[] { 50, 100 }" />
-        </PagerContent>
-    </MudTable>
-
-    <MudDivider Vertical="true" FlexItem="true" />
-
-    <MudCard>
-        <!-- transaction-summary for all selected-students -->
-        @if (transactions != null && transactions.Count() > 0)
-        {
-            <MudTable Items="@transactionSummary"
-                      Height="350px"
-                      Breakpoint="Breakpoint.Sm"
-                      Hover="@hover">
-                <HeaderContent>
-                    <MudTh>GLACCTNO</MudTh>
-                    <MudTh>Credit</MudTh>
-                    <MudTh>Debit</MudTh>
-                </HeaderContent>
-                <RowTemplate>
-                    <MudTd DataLabel="GLACCTNO">@context.GLACCTNO</MudTd>
-                    <MudTd DataLabel="Credit">@context.TotalCreditAmount</MudTd>
-                    <MudTd DataLabel="Debit">@context.TotalDebitAmount</MudTd>
-                </RowTemplate>
-            </MudTable>
-        }
-        else
-        {
-            <MudPaper>
-                <MudCard>
-                    <MudCardContent>
-                        <MudText>Transaction Summary Data Not Available!</MudText>
-                    </MudCardContent>
-                </MudCard>
-            </MudPaper>
-        }
-    </MudCard>
-
-</MudPaper>
-
-<!-- transactions for selected student-->
-<MudGrid>
-    <MudItem xs="12">
-        @if (transactions != null && transactions.Count() > 0)
-        {
-            <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
-                <MudTable Items="@transactions"
-                          Height="350px"
-                          Breakpoint="Breakpoint.Sm">
-                    <HeaderContent>
-                        <MudTh>Tr #</MudTh>
-                        <MudTh>Student #</MudTh>
-                        <MudTh>GL ACCT NO</MudTh>
-                        <MudTh>Credit</MudTh>
-                        <MudTh>Debit</MudTh>
-                    </HeaderContent>
-                    <RowTemplate>
-                        <MudTd DataLabel="TransactionId">@context.TransactionId</MudTd>
-                        <MudTd DataLabel="StudentId">@context.StudentId</MudTd>
-                        <MudTd DataLabel="GLACCTNO">@context.GLACCTNO</MudTd>
-                        <MudTd DataLabel="CreditAmount">@context.CreditAmount</MudTd>
-                        <MudTd DataLabel="DebitAmount">@context.DebitAmount</MudTd>
-                    </RowTemplate>
-                    <PagerContent>
-                        <MudTablePager PageSizeOptions="new int[] { 50, 100 }" />
-                    </PagerContent>
-                </MudTable>
-            </MudPaper>
-        }
-        else
-        {
-            <MudPaper>
-                <MudCard>
-                    <MudCardContent>
-                        <MudText>Student-Transactions Data Not Available!</MudText>
-                    </MudCardContent>
-                </MudCard>
-            </MudPaper>
-        }
-    </MudItem>
-</MudGrid>
-
+<h3>University of Winnipeg [GL_ACCT App]</h3>
+<p></p>
+<MudCard>
+    <MudCardContent>
+        <MudText Typo="Typo.h5">Group by [GL ACCT NO]</MudText>
+        <MudDivider DividerType="DividerType.Middle" Class="my-6" />
+        <MudText Typo="Typo.h5">Sum(Debit) Sum(Credit)</MudText>
+        <MudDivider DividerType="DividerType.Middle" Class="my-6" />
+        <MudText Typo="Typo.h5">X-Fer To Xcel File</MudText>
+        <MudDivider DividerType="DividerType.Middle" Class="my-6" />
+    </MudCardContent>
+    <MudCardActions>        
+        <MudElement HtmlTag="a"
+                    Class="ma-0"
+                    Style="color:red;font-weight:bold;"
+                    href="https://github.com/Ankithorizon/University-Admin"
+                    target="blank"
+                    rel="noopener noreferrer">
+            Source-Code
+        </MudElement>
+    </MudCardActions>
+</MudCard>
 
 @code{
 
-    private bool hover = true;
-    private HashSet<Student> selectedStudents = new HashSet<Student>();
-    private HashSet<int> selectedIds = new HashSet<int>();
-
-    private Student student = new Student();
-    private List<Student> students = new List<Student>();
-    public List<Transaction> transactions = new List<Transaction>();
-    List<TransactionSummary> transactionSummary = new List<TransactionSummary>();
-
-
-    protected override async Task OnInitializedAsync()
-    {
-        GetStudents();
-    }
-    private List<Student> GetStudents()
-    {
-        students = studentService.GetStudents();
-
-        return students;
-    }
-    private Student GetStudent(int id)
-    {
-        student = studentService.GetStudent(id);
-
-        return student;
-    }
-    private string HandleNull(string value)
-    {
-        if (value == null || value == "")
-            return "N/A";
-        else
-            return value;
-    }
-
-
-    private void ClickEvent(Student model)
-    {
-        // transaction-summary for all selected-students
-        selectedIds = new HashSet<int>();
-        foreach(var s in selectedStudents)
-        {
-            selectedIds.Add(s.StudentId);
-        }
-        List<int> selectedIdsOfList = selectedIds.ToList();
-        transactionSummary = studentService.GetTransactionsSummary(selectedIdsOfList);
-
-        transactions = new List<Transaction>();
-        GetStudentTransactions(model);
-    }
-    private List<Transaction> GetStudentTransactions(Student model)
-    {
-        if (model != null)
-        {            
-            transactions = studentService.GetStudentTransactions(model.StudentId);
-            return transactions;
-        }
-        else
-        {
-            return new List<Transaction>();
-        }
-    }
+ 
 }
 
 

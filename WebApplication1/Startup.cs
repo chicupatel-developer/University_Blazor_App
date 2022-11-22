@@ -40,6 +40,7 @@ namespace BlazorServerApp
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("UWDatabase")));
 
             services.AddScoped<IStudentService, StudentService>();
+            services.AddScoped<IGLPostingService, GLPostingService>();
 
 
         }

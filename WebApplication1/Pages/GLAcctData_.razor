@@ -1,0 +1,176 @@
+﻿@page "/gl_acct_data"
+
+<h3>GL ACCT Data</h3>
+
+
+@inject DataAccess.Contracts.IGLPostingService glPostingService
+@using DataAccess.Models
+@using DataAccess.DTO
+@inject MudBlazor.ISnackbar snackBar
+
+
+<MudPaper Square="true" Class="d-flex justify-space-around">
+    <!-- GL_Postings -->
+    <MudTable Items="@GetAllGLPostings()"
+              @onclick="@( (x) => ClickEvent(selectedGL_Postings.LastOrDefault()))"
+              Height="550px"
+              Breakpoint="Breakpoint.Sm"
+              MultiSelection="true"
+              @bind-SelectedItems="selectedGL_Postings"
+              Hover="@hover">
+        <HeaderContent>
+            <MudTh>#</MudTh>
+            <MudTh>Source</MudTh>
+            <MudTh>Ref No</MudTh>
+            <MudTh>TR Date</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="StudentId">@context.PostingsId</MudTd>
+            <MudTd DataLabel="FirstName">@context.Source</MudTd>
+            <MudTd DataLabel="LastName">@context.RefNo</MudTd>
+            <MudTd DataLabel="PhoneNumber">@context.TRDate</MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager PageSizeOptions="new int[] { 5,10 }" />
+        </PagerContent>
+    </MudTable>
+
+    <MudDivider Vertical="true" FlexItem="true" />
+
+    <MudCard>
+        <!-- transaction-summary for all selected-gl-postings -->
+        @if (glps_datas != null && glps_datas.Count() > 0)
+        {
+            <MudTable Items="@transactionSummary"
+                      Height="350px"
+                      Breakpoint="Breakpoint.Sm"
+                      Hover="@hover">
+                <HeaderContent>
+                    <MudTh>GLACCTNO</MudTh>
+                    <MudTh>Credit</MudTh>
+                    <MudTh>Debit</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd DataLabel="GLACCTNO">@context.GLACCTNO</MudTd>
+                    <MudTd DataLabel="Credit">@context.TotalCreditAmount</MudTd>
+                    <MudTd DataLabel="Debit">@context.TotalDebitAmount</MudTd>
+                </RowTemplate>
+            </MudTable>
+        }
+        else
+        {
+            <MudPaper>
+                <MudCard>
+                    <MudCardContent>
+                        <MudText>Transaction Summary Data Not Available!</MudText>
+                    </MudCardContent>
+                </MudCard>
+            </MudPaper>
+        }
+    </MudCard>
+
+</MudPaper>
+
+<!-- glps_datas for selected gl_posting-->
+<MudGrid>
+    <MudItem xs="12">
+        @if (glps_datas != null && glps_datas.Count() > 0)
+        {
+            <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
+                <MudTable Items="@glps_datas"
+                          Height="350px"
+                          Breakpoint="Breakpoint.Sm">
+                    <HeaderContent>
+                        <MudTh>#</MudTh>
+                        <MudTh>Postings #</MudTh>
+                        <MudTh>POS</MudTh>
+                        <MudTh>GL ACCT NO</MudTh>
+                        <MudTh>Debit</MudTh>
+                        <MudTh>Credit</MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd DataLabel="GLPS_DataId">@context.GLPS_DataId</MudTd>
+                        <MudTd DataLabel="PostingsId">@context.PostingsId</MudTd>
+                        <MudTd DataLabel="POS">@context.POS</MudTd>
+                        <MudTd DataLabel="GLACCTNO">@context.GLACCTNO</MudTd>
+                        <MudTd DataLabel="Debit">@context.Debit</MudTd>
+                        <MudTd DataLabel="Credit">@context.Credit</MudTd>
+                    </RowTemplate>
+                    <PagerContent>
+                        <MudTablePager PageSizeOptions="new int[] { 5,10 }" />
+                    </PagerContent>
+                </MudTable>
+            </MudPaper>
+        }
+        else
+        {
+            <MudPaper>
+                <MudCard>
+                    <MudCardContent>
+                        <MudText>GLPS_Datas Not Available!</MudText>
+                    </MudCardContent>
+                </MudCard>
+            </MudPaper>
+        }
+    </MudItem>
+</MudGrid>
+
+
+@code{
+
+    private bool hover = true;
+    private HashSet<GL_Posting> selectedGL_Postings = new HashSet<GL_Posting>();
+    private HashSet<int> selectedIds = new HashSet<int>();
+
+    private GL_Posting gl_posting = new GL_Posting();
+    private List<GL_Posting> gl_postings = new List<GL_Posting>();
+    public List<GLPS_Data> glps_datas = new List<GLPS_Data>();
+    List<TransactionSummary> transactionSummary = new List<TransactionSummary>();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        GetAllGLPostings();
+    }
+    private List<GL_Posting> GetAllGLPostings()
+    {
+        gl_postings = glPostingService.GetAllGL_Postings();
+
+        return gl_postings;
+    }
+    private GL_Posting GetGL_Posting(int id)
+    {
+        gl_posting = glPostingService.GetGL_Posting(id);
+
+        return gl_posting;
+    }
+
+
+    private void ClickEvent(GL_Posting model)
+    {
+        // transaction-summary for all selected-gl-postings
+        selectedIds = new HashSet<int>();
+        foreach (var p in selectedGL_Postings)
+        {
+            selectedIds.Add(p.PostingsId);
+        }
+        List<int> selectedIdsOfList = selectedIds.ToList();
+        transactionSummary = glPostingService.GetTransactionsSummary(selectedIdsOfList);
+
+        glps_datas = new List<GLPS_Data>();
+        GetGLPS_Datas(model);
+    }
+    private List<GLPS_Data> GetGLPS_Datas(GL_Posting model)
+    {
+        if (model != null)
+        {
+            glps_datas = glPostingService.GetGLPS_Datas(model.PostingsId);
+            return glps_datas;
+        }
+        else
+        {
+            return new List<GLPS_Data>();
+        }
+    }
+}
+

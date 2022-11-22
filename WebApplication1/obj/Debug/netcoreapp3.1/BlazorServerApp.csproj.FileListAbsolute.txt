@@ -91,3 +91,7 @@ C:\BlazorApps\BlazorServerApp\WebApplication1\bin\Debug\netcoreapp3.1\WebAPI.dll
 C:\BlazorApps\BlazorServerApp\WebApplication1\bin\Debug\netcoreapp3.1\DataAccess.pdb
 C:\BlazorApps\BlazorServerApp\WebApplication1\bin\Debug\netcoreapp3.1\WebAPI.pdb
 C:\BlazorApps\BlazorServerApp\WebApplication1\obj\Debug\netcoreapp3.1\BlazorServerApp.MvcApplicationPartsAssemblyInfo.cs
+C:\BlazorApps\BlazorServerApp\WebApplication1\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\Student_.razor.g.cs
+C:\BlazorApps\BlazorServerApp\WebApplication1\obj\Debug\netcoreapp3.1\Razor\Pages\Student_.razor.g.cs
+C:\BlazorApps\BlazorServerApp\WebApplication1\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\GLAcctData_.razor.g.cs
+C:\BlazorApps\BlazorServerApp\WebApplication1\obj\Debug\netcoreapp3.1\Razor\Pages\GLAcctData_.razor.g.cs
