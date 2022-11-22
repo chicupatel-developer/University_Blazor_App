@@ -13,5 +13,7 @@ namespace DataAccess
         }
         public DbSet<Student> Students { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<GL_Posting> GL_Postings { get; set; }
+        public DbSet<GLPS_Data> GLPS_Datas { get; set; }
     }
 }
