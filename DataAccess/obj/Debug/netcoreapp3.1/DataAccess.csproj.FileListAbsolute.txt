@@ -9,4 +9,3 @@ C:\BlazorApps\BlazorServerApp\DataAccess\bin\Debug\netcoreapp3.1\DataAccess.pdb
 C:\BlazorApps\BlazorServerApp\DataAccess\obj\Debug\netcoreapp3.1\DataAccess.dll
 C:\BlazorApps\BlazorServerApp\DataAccess\obj\Debug\netcoreapp3.1\DataAccess.pdb
 C:\BlazorApps\BlazorServerApp\DataAccess\obj\Debug\netcoreapp3.1\DataAccess.genruntimeconfig.cache
-C:\BlazorApps\BlazorServerApp\DataAccess\obj\Debug\netcoreapp3.1\DataAccess.csproj.AssemblyReference.cache
