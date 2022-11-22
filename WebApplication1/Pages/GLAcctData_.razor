@@ -29,7 +29,7 @@
             <MudTd DataLabel="StudentId">@context.PostingsId</MudTd>
             <MudTd DataLabel="FirstName">@context.Source</MudTd>
             <MudTd DataLabel="LastName">@context.RefNo</MudTd>
-            <MudTd DataLabel="PhoneNumber">@context.TRDate</MudTd>
+            <MudTd DataLabel="PhoneNumber">@context.TRDate.ToString("dd MMM yyyy")</MudTd>
         </RowTemplate>
         <PagerContent>
             <MudTablePager PageSizeOptions="new int[] { 5,10 }" />
