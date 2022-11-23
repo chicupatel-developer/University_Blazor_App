@@ -80,6 +80,7 @@ namespace DataAccess.Services
         public List<string> GetSources()
         {
             List<string> sources = new List<string>();
+            sources.Add("NONE"); 
             sources.Add("PJ");
             sources.Add("AB");
             sources.Add("CD");
@@ -90,17 +91,19 @@ namespace DataAccess.Services
 
         public List<GL_Posting> GetFilterGL_Postings(GL_Postings_Filter_Data filterData)
         {
-            List<GL_Posting> filterDatas = new List<GL_Posting>();
+            IEnumerable<GL_Posting> datas = _dbContext.GL_Postings;
 
-            IEnumerable<GL_Posting> dataBySource = _dbContext.GL_Postings
-                                            .Where(x=>x.Source==filterData.Source);
-
-            if(dataBySource!=null && dataBySource.Count() > 0)
+            if(filterData.Source!=null && filterData.Source!="" && filterData.Source != "NONE")
             {
-                filterDatas = dataBySource.ToList();
+                datas = datas.Where(x => x.Source == filterData.Source );               
+            }
+         
+            if (filterData.FromTRDate != null && filterData.ToTRDate != null)
+            {
+                datas = datas.Where(x=>x.TRDate.Date>=filterData.FromTRDate.Value.Date && x.TRDate.Date<=filterData.ToTRDate.Value.Date);             
             }
 
-            return filterDatas;
+            return datas.ToList();
         }
     }
 }

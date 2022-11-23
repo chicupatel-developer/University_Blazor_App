@@ -83,14 +83,14 @@ using MudBlazor;
 #line hidden
 #nullable disable
 #nullable restore
-#line 7 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\GLAcctData_.razor"
+#line 12 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\GLAcctData_.razor"
 using DataAccess.Models;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 8 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\GLAcctData_.razor"
+#line 13 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\GLAcctData_.razor"
 using DataAccess.DTO;
 
 #line default
@@ -105,8 +105,19 @@ using DataAccess.DTO;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 164 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\GLAcctData_.razor"
+#line 176 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\GLAcctData_.razor"
       
+
+    // very first load of table for gl_postings,,, displays number of rows
+    // in table
+    // @ref="table" code in table configuration
+    private MudTable<GL_Posting> table;
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        table.SetRowsPerPage(5);
+        return base.OnAfterRenderAsync(firstRender);
+    }
+
 
     private bool hover = true;
     private HashSet<GL_Posting> selectedGL_Postings = new HashSet<GL_Posting>();
@@ -185,8 +196,10 @@ using DataAccess.DTO;
 
 
     // filter    
-    private SourceEnum sourceValue { get; set; } = SourceEnum.PJ;
-    public enum SourceEnum { PJ, AB, CD, EF, JH }
+    private SourceEnum sourceValue { get; set; } = SourceEnum.NONE;
+    public enum SourceEnum { NONE, PJ, AB, CD, EF, JH }
+    DateTime? fromTRDate = DateTime.Today;
+    DateTime? toTRDate = DateTime.Today;
     private void DoFilter(string sourceValue)
     {
         // reset for 2nd and 3rd tables
@@ -195,6 +208,9 @@ using DataAccess.DTO;
 
         GL_Postings_Filter_Data filterData = new GL_Postings_Filter_Data();
         filterData.Source = sourceValue;
+        filterData.FromTRDate = fromTRDate;
+        filterData.ToTRDate = toTRDate;
+
 
         if (sourceValue != "" && sourceValue != null)
             gl_postings = glPostingService.GetFilterGL_Postings(filterData);
@@ -202,6 +218,8 @@ using DataAccess.DTO;
             gl_postings = glPostingService.GetAllGL_Postings();
     }
 
+
+    // this will reset when filter is active
     private void Reset()
     {
         glps_datas = new List<GLPS_Data>();

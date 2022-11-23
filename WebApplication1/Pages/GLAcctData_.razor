@@ -1,7 +1,12 @@
 ﻿@page "/gl_acct_data"
 
 <h3>GL ACCT Data</h3>
-
+<style>
+    .filterBtn{
+        font-size:x-large;
+        padding:30px;
+    }
+</style>
 
 @inject DataAccess.Contracts.IGLPostingService glPostingService
 @using DataAccess.Models
@@ -26,21 +31,27 @@
         </MudItem>
         <MudItem xs="3">
             <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
-                Date Filter
+                <MudDatePicker 
+                               Label="From TR Date" 
+                               @bind-Date="fromTRDate" />
             </MudPaper>
         </MudItem>
         <MudItem xs="3">
             <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
-                Date Filter
+                <MudDatePicker Label="To TR Date"
+                               @bind-Date="toTRDate" />
             </MudPaper>
         </MudItem>
         <MudItem xs="3">
             <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
-                <MudButton 
-                           @onclick="@( (x) => DoFilter(sourceValue.ToString()))"
-                           Variant="Variant.Filled" 
+                <MudButton @onclick="@( (x) => DoFilter(sourceValue.ToString()))"
+                           Class="filterBtn"
+                           Variant="Variant.Filled"
                            Color="Color.Primary">
-                    Filter
+                    <span class="oi oi-magnifying-glass" aria-hidden="true">
+                        Filter
+                    </span>
+                    
                 </MudButton>
             </MudPaper>
         </MudItem>
@@ -53,6 +64,7 @@
 <MudPaper Square="true" Class="d-flex justify-space-around">
     <!-- GL_Postings -->
     <MudTable Items="@gl_postings"
+              @ref="table"
               @onclick="@( (x) => ClickEvent(selectedGL_Postings.LastOrDefault()))"
               Height="550px"
               Breakpoint="Breakpoint.Sm"
@@ -73,7 +85,7 @@
             <MudTd DataLabel="PhoneNumber">@context.TRDate.ToString("dd MMM yyyy")</MudTd>
         </RowTemplate>
         <PagerContent>
-            <MudTablePager PageSizeOptions="new int[] { 5,10 }" />
+            <MudTablePager PageSizeOptions="new int[] { 2,5,10 }" />
         </PagerContent>
     </MudTable>
 
@@ -163,6 +175,17 @@
 
 @code{
 
+    // very first load of table for gl_postings,,, displays number of rows
+    // in table
+    // @ref="table" code in table configuration
+    private MudTable<GL_Posting> table;
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        table.SetRowsPerPage(5);
+        return base.OnAfterRenderAsync(firstRender);
+    }
+
+
     private bool hover = true;
     private HashSet<GL_Posting> selectedGL_Postings = new HashSet<GL_Posting>();
     private GL_Posting selectedGL_Posting = new GL_Posting();
@@ -240,8 +263,10 @@
 
 
     // filter    
-    private SourceEnum sourceValue { get; set; } = SourceEnum.PJ;
-    public enum SourceEnum { PJ, AB, CD, EF, JH }
+    private SourceEnum sourceValue { get; set; } = SourceEnum.NONE;
+    public enum SourceEnum { NONE, PJ, AB, CD, EF, JH }
+    DateTime? fromTRDate = DateTime.Today;
+    DateTime? toTRDate = DateTime.Today;
     private void DoFilter(string sourceValue)
     {
         // reset for 2nd and 3rd tables
@@ -250,6 +275,9 @@
 
         GL_Postings_Filter_Data filterData = new GL_Postings_Filter_Data();
         filterData.Source = sourceValue;
+        filterData.FromTRDate = fromTRDate;
+        filterData.ToTRDate = toTRDate;
+
 
         if (sourceValue != "" && sourceValue != null)
             gl_postings = glPostingService.GetFilterGL_Postings(filterData);
@@ -257,6 +285,8 @@
             gl_postings = glPostingService.GetAllGL_Postings();
     }
 
+
+    // this will reset when filter is active
     private void Reset()
     {
         glps_datas = new List<GLPS_Data>();
