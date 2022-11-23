@@ -189,6 +189,10 @@ using DataAccess.DTO;
     public enum SourceEnum { PJ, AB, CD, EF, JH }
     private void DoFilter(string sourceValue)
     {
+        // reset for 2nd and 3rd tables
+        // that depends on 1st table gl_postings
+        Reset();
+
         GL_Postings_Filter_Data filterData = new GL_Postings_Filter_Data();
         filterData.Source = sourceValue;
 
@@ -196,6 +200,15 @@ using DataAccess.DTO;
             gl_postings = glPostingService.GetFilterGL_Postings(filterData);
         else
             gl_postings = glPostingService.GetAllGL_Postings();
+    }
+
+    private void Reset()
+    {
+        glps_datas = new List<GLPS_Data>();
+        transactionSummary = new List<TransactionSummary>();
+        selectedGL_Postings = new HashSet<GL_Posting>();
+        selectedGL_Posting = new GL_Posting();
+        selectedIds = new HashSet<int>();
     }
 
 #line default
