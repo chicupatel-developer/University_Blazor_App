@@ -76,5 +76,31 @@ namespace DataAccess.Services
             else
                 return transactionSummary;
         }
+
+        public List<string> GetSources()
+        {
+            List<string> sources = new List<string>();
+            sources.Add("PJ");
+            sources.Add("AB");
+            sources.Add("CD");
+            sources.Add("EF");
+            sources.Add("JH");
+            return sources;
+        }
+
+        public List<GL_Posting> GetFilterGL_Postings(GL_Postings_Filter_Data filterData)
+        {
+            List<GL_Posting> filterDatas = new List<GL_Posting>();
+
+            IEnumerable<GL_Posting> dataBySource = _dbContext.GL_Postings
+                                            .Where(x=>x.Source==filterData.Source);
+
+            if(dataBySource!=null && dataBySource.Count() > 0)
+            {
+                filterDatas = dataBySource.ToList();
+            }
+
+            return filterDatas;
+        }
     }
 }

@@ -12,5 +12,8 @@ namespace DataAccess.Contracts
         GL_Posting GetGL_Posting(int id);
         List<GLPS_Data> GetGLPS_Datas(int id);
         List<TransactionSummary> GetTransactionsSummary(List<int> ids);
+        // filter
+        List<string> GetSources();
+        List<GL_Posting> GetFilterGL_Postings(GL_Postings_Filter_Data filterData);
     }
 }

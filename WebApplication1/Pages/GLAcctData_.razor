@@ -8,10 +8,51 @@
 @using DataAccess.DTO
 @inject MudBlazor.ISnackbar snackBar
 
+<!-- filter -->
+<div class="container">
+    <MudGrid>
+        <MudItem xs="3">
+            <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
+                <MudSelect @bind-Value="sourceValue"
+                           Variant="Variant.Outlined"
+                           HelperText="Select Source"                           
+                           AdornmentColor="Color.Secondary">
+                    @foreach (SourceEnum item in Enum.GetValues(typeof(SourceEnum)))
+                    {
+                        <MudSelectItem Value="@item">@item</MudSelectItem>
+                    }
+                </MudSelect>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="3">
+            <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
+                Date Filter
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="3">
+            <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
+                Date Filter
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="3">
+            <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
+                <MudButton 
+                           @onclick="@( (x) => DoFilter(sourceValue.ToString()))"
+                           Variant="Variant.Filled" 
+                           Color="Color.Primary">
+                    Filter
+                </MudButton>
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+    <p></p>
+</div>
+
+
 
 <MudPaper Square="true" Class="d-flex justify-space-around">
     <!-- GL_Postings -->
-    <MudTable Items="@GetAllGLPostings()"
+    <MudTable Items="@gl_postings"
               @onclick="@( (x) => ClickEvent(selectedGL_Postings.LastOrDefault()))"
               Height="550px"
               Breakpoint="Breakpoint.Sm"
@@ -117,6 +158,9 @@
 </MudGrid>
 
 
+
+
+
 @code{
 
     private bool hover = true;
@@ -192,6 +236,21 @@
         {
             return new List<GLPS_Data>();
         }
+    }
+
+
+    // filter    
+    private SourceEnum sourceValue { get; set; } = SourceEnum.PJ;
+    public enum SourceEnum { PJ, AB, CD, EF, JH }
+    private void DoFilter(string sourceValue)
+    {
+        GL_Postings_Filter_Data filterData = new GL_Postings_Filter_Data();
+        filterData.Source = sourceValue;
+
+        if (sourceValue != "" && sourceValue != null)
+            gl_postings = glPostingService.GetFilterGL_Postings(filterData);
+        else
+            gl_postings = glPostingService.GetAllGL_Postings();
     }
 }
 

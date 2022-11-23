@@ -105,7 +105,7 @@ using DataAccess.DTO;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 120 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\GLAcctData_.razor"
+#line 164 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\GLAcctData_.razor"
       
 
     private bool hover = true;
@@ -181,6 +181,21 @@ using DataAccess.DTO;
         {
             return new List<GLPS_Data>();
         }
+    }
+
+
+    // filter    
+    private SourceEnum sourceValue { get; set; } = SourceEnum.PJ;
+    public enum SourceEnum { PJ, AB, CD, EF, JH }
+    private void DoFilter(string sourceValue)
+    {
+        GL_Postings_Filter_Data filterData = new GL_Postings_Filter_Data();
+        filterData.Source = sourceValue;
+
+        if (sourceValue != "" && sourceValue != null)
+            gl_postings = glPostingService.GetFilterGL_Postings(filterData);
+        else
+            gl_postings = glPostingService.GetAllGL_Postings();
     }
 
 #line default
