@@ -69,6 +69,7 @@ namespace DataAccess.Services
                         GLACCTNO = r.GLACCTNO,
                         TotalCreditAmount = r.TotalCreditAmount,
                         TotalDebitAmount = r.TotalDebitAmount,
+                        EntryAmount = r.TotalCreditAmount!=null ? r.TotalCreditAmount : (r.TotalDebitAmount*-1)
                     });
                 }
                 return transactionSummary;

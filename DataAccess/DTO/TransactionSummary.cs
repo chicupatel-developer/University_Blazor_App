@@ -9,5 +9,6 @@ namespace DataAccess.DTO
         public string GLACCTNO { get; set; }
         public decimal? TotalCreditAmount { get; set; }
         public decimal? TotalDebitAmount { get; set; }
+        public decimal? EntryAmount { get; set; }
     }
 }

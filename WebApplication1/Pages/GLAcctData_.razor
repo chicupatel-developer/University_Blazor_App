@@ -1,10 +1,14 @@
 ﻿@page "/gl_acct_data"
 
-<h3>GL ACCT Data</h3>
 <style>
-    .filterBtn{
-        font-size:x-large;
-        padding:30px;
+    .filterBtn {
+        font-size: medium;
+        padding: 30px;
+        margin:5px;
+    }
+
+    .glpsDataTable {
+        margin: 30px;
     }
 </style>
 
@@ -13,70 +17,63 @@
 @using DataAccess.DTO
 @inject MudBlazor.ISnackbar snackBar
 
+<h3>From SIS to NAV</h3>
+
 <!-- filter -->
 <div class="container">
     <MudGrid>
         <MudItem xs="3">
-            <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
-                <MudSelect @bind-Value="sourceValue"
-                           Variant="Variant.Outlined"
-                           HelperText="Select Source"                           
-                           AdornmentColor="Color.Secondary">
-                    @foreach (SourceEnum item in Enum.GetValues(typeof(SourceEnum)))
-                    {
-                        <MudSelectItem Value="@item">@item</MudSelectItem>
-                    }
-                </MudSelect>
-            </MudPaper>
+            <MudSelect @bind-Value="sourceValue"
+                       Variant="Variant.Outlined"
+                       HelperText="Select Source"
+                       AdornmentColor="Color.Secondary">
+                @foreach (SourceEnum item in Enum.GetValues(typeof(SourceEnum)))
+                {
+                    <MudSelectItem Value="@item">@item</MudSelectItem>
+                }
+            </MudSelect>
         </MudItem>
         <MudItem xs="3">
-            <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
-                <MudDatePicker 
-                               Label="From TR Date" 
-                               @bind-Date="fromTRDate" />
-            </MudPaper>
+            <MudDatePicker Label="From TR Date"
+                           @bind-Date="fromTRDate" />
         </MudItem>
         <MudItem xs="3">
-            <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
-                <MudDatePicker Label="To TR Date"
-                               @bind-Date="toTRDate" />
-            </MudPaper>
+            <MudDatePicker Label="To TR Date"
+                           @bind-Date="toTRDate" />
         </MudItem>
         <MudItem xs="3">
-            <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
-                <MudButton @onclick="@( (x) => DoFilter(sourceValue.ToString()))"
-                           Class="filterBtn"
-                           Variant="Variant.Filled"
-                           Color="Color.Primary">
-                    <span class="oi oi-magnifying-glass" aria-hidden="true">
-                        Filter
-                    </span>
-                    
-                </MudButton>
-            </MudPaper>
+            <MudButton @onclick="@( (x) => DoFilter(sourceValue.ToString()))"
+                       Class="filterBtn"
+                       Variant="Variant.Filled"
+                       Color="Color.Primary">
+                <span class="oi oi-magnifying-glass" aria-hidden="true">
+                    Filter
+                </span>
+            </MudButton>
         </MudItem>
     </MudGrid>
     <p></p>
 </div>
 
 
-
+<h5>GL_Postings:</h5>
+<p></p>
 <MudPaper Square="true" Class="d-flex justify-space-around">
     <!-- GL_Postings -->
     <MudTable Items="@gl_postings"
               @ref="table"
               @onclick="@( (x) => ClickEvent(selectedGL_Postings.LastOrDefault()))"
-              Height="550px"
+              Height="350px"
               Breakpoint="Breakpoint.Sm"
               MultiSelection="true"
               @bind-SelectedItems="selectedGL_Postings"
               @bind-SelectedItem="selectedGL_Posting"
               Hover="@hover">
         <HeaderContent>
-            <MudTh>#</MudTh>
-            <MudTh>Source</MudTh>
-            <MudTh>Ref No</MudTh>
-            <MudTh>TR Date</MudTh>
+            <MudTh>POSTINGS ID</MudTh>
+            <MudTh>SOURCE</MudTh>
+            <MudTh>REF NO</MudTh>
+            <MudTh>TR DATE</MudTh>
         </HeaderContent>
         <RowTemplate>
             <MudTd DataLabel="StudentId">@context.PostingsId</MudTd>
@@ -100,16 +97,53 @@
                       Breakpoint="Breakpoint.Sm"
                       Hover="@hover">
                 <HeaderContent>
-                    <MudTh>GLACCTNO</MudTh>
-                    <MudTh>Credit</MudTh>
-                    <MudTh>Debit</MudTh>
+                    <MudTh>GL_ACCOUNT_NO</MudTh>
+                    <MudTh>ENTRY_AMOUNT</MudTh>
                 </HeaderContent>
                 <RowTemplate>
                     <MudTd DataLabel="GLACCTNO">@context.GLACCTNO</MudTd>
-                    <MudTd DataLabel="Credit">@context.TotalCreditAmount</MudTd>
-                    <MudTd DataLabel="Debit">@context.TotalDebitAmount</MudTd>
+                    <MudTd DataLabel="EntryAmount">@context.EntryAmount</MudTd>
                 </RowTemplate>
             </MudTable>
+            <p></p>
+            <MudGrid>
+                <MudItem xs="6">
+                    <MudChip Label="true"
+                             Size="Size.Large"
+                             Color="Color.Success">
+                        @TotalCreditAmount
+                    </MudChip>
+                </MudItem>
+                <MudItem xs="6">
+                    <MudChip Label="true"
+                             Size="Size.Large"
+                             Color="Color.Warning">
+                        (@TotalDebitAmount)
+                    </MudChip>
+                </MudItem>
+            </MudGrid>
+            <p></p>
+            <MudGrid>
+                <MudItem xs="6">
+                    <MudButton 
+                               Class="filterBtn"
+                               Variant="Variant.Filled"
+                               Color="Color.Success">
+                        <span class="oi oi-transfer" aria-hidden="true">
+                            Excel
+                        </span>
+                    </MudButton>                  
+                </MudItem>
+                <MudItem xs="6">
+                    <MudButton Class="filterBtn"
+                               Variant="Variant.Filled"
+                               Color="Color.Tertiary">
+                        <span class="oi oi-data-transfer-upload" aria-hidden="true">
+                            NAV
+                        </span>
+                    </MudButton>
+                </MudItem>
+            </MudGrid>
         }
         else
         {
@@ -126,49 +160,55 @@
 </MudPaper>
 
 <!-- glps_datas for selected gl_posting-->
-<MudGrid>
-    <MudItem xs="12">
-        @if (glps_datas != null && glps_datas.Count() > 0)
-        {
-            <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
-                <MudTable Items="@glps_datas"
-                          Height="350px"
-                          Breakpoint="Breakpoint.Sm">
-                    <HeaderContent>
-                        <MudTh>#</MudTh>
-                        <MudTh>Postings #</MudTh>
-                        <MudTh>POS</MudTh>
-                        <MudTh>GL ACCT NO</MudTh>
-                        <MudTh>Debit</MudTh>
-                        <MudTh>Credit</MudTh>
-                    </HeaderContent>
-                    <RowTemplate>
-                        <MudTd DataLabel="GLPS_DataId">@context.GLPS_DataId</MudTd>
-                        <MudTd DataLabel="PostingsId">@context.PostingsId</MudTd>
-                        <MudTd DataLabel="POS">@context.POS</MudTd>
-                        <MudTd DataLabel="GLACCTNO">@context.GLACCTNO</MudTd>
-                        <MudTd DataLabel="Debit">@context.Debit</MudTd>
-                        <MudTd DataLabel="Credit">@context.Credit</MudTd>
-                    </RowTemplate>
-                    <PagerContent>
-                        <MudTablePager PageSizeOptions="new int[] { 5,10 }" />
-                    </PagerContent>
-                </MudTable>
-            </MudPaper>
-        }
-        else
-        {
-            <MudPaper>
-                <MudCard>
-                    <MudCardContent>
-                        <MudText>GLPS_Datas Not Available!</MudText>
-                    </MudCardContent>
-                </MudCard>
-            </MudPaper>
-        }
-    </MudItem>
-</MudGrid>
-
+<p></p>
+<h5>GLPS_Data:</h5>
+<p></p>
+<div class="container glpsDataTable">
+    <MudGrid>
+        <MudItem xs="9">
+            @if (glps_datas != null && glps_datas.Count() > 0)
+            {
+                <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
+                    <MudTable Items="@glps_datas"
+                              Height="350px"
+                              Breakpoint="Breakpoint.Sm">
+                        <HeaderContent>
+                            <MudTh>#</MudTh>
+                            <MudTh>POSTINGS ID</MudTh>
+                            <MudTh>POS</MudTh>
+                            <MudTh>GL ACCT NO</MudTh>
+                            <MudTh>DEBIT</MudTh>
+                            <MudTh>CREDIT</MudTh>
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd DataLabel="GLPS_DataId">@context.GLPS_DataId</MudTd>
+                            <MudTd DataLabel="PostingsId">@context.PostingsId</MudTd>
+                            <MudTd DataLabel="POS">@context.POS</MudTd>
+                            <MudTd DataLabel="GLACCTNO">@context.GLACCTNO</MudTd>
+                            <MudTd DataLabel="Debit">@context.Debit</MudTd>
+                            <MudTd DataLabel="Credit">@context.Credit</MudTd>
+                        </RowTemplate>
+                        <PagerContent>
+                            <MudTablePager PageSizeOptions="new int[] { 5,10 }" />
+                        </PagerContent>
+                    </MudTable>
+                </MudPaper>
+            }
+            else
+            {
+                <MudPaper>
+                    <MudCard>
+                        <MudCardContent>
+                            <MudText>GLPS_Datas Not Available!</MudText>
+                        </MudCardContent>
+                    </MudCard>
+                </MudPaper>
+            }
+        </MudItem>
+        <MudItem xs="3">
+        </MudItem>
+    </MudGrid>
+</div>
 
 
 
@@ -195,7 +235,8 @@
     private List<GL_Posting> gl_postings = new List<GL_Posting>();
     public List<GLPS_Data> glps_datas = new List<GLPS_Data>();
     List<TransactionSummary> transactionSummary = new List<TransactionSummary>();
-
+    private decimal? TotalCreditAmount;
+    private decimal? TotalDebitAmount;
 
     protected override async Task OnInitializedAsync()
     {
@@ -225,6 +266,14 @@
         }
         List<int> selectedIdsOfList = selectedIds.ToList();
         transactionSummary = glPostingService.GetTransactionsSummary(selectedIdsOfList);
+        foreach (var ts in transactionSummary)
+        {
+            if (ts.TotalCreditAmount == null)
+                TotalDebitAmount = ts.TotalDebitAmount;
+            else
+                TotalCreditAmount = ts.TotalCreditAmount;
+        }
+
 
         var flag = false;
         foreach (var pid in selectedIdsOfList)
@@ -257,12 +306,13 @@
         }
         else
         {
+            glps_datas = new List<GLPS_Data>();
             return new List<GLPS_Data>();
         }
     }
 
 
-    // filter    
+    // filter
     private SourceEnum sourceValue { get; set; } = SourceEnum.NONE;
     public enum SourceEnum { NONE, PJ, AB, CD, EF, JH }
     DateTime? fromTRDate = DateTime.Today;

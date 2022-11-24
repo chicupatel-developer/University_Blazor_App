@@ -83,14 +83,14 @@ using MudBlazor;
 #line hidden
 #nullable disable
 #nullable restore
-#line 12 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\GLAcctData_.razor"
+#line 16 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\GLAcctData_.razor"
 using DataAccess.Models;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 13 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\GLAcctData_.razor"
+#line 17 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\GLAcctData_.razor"
 using DataAccess.DTO;
 
 #line default
@@ -105,7 +105,7 @@ using DataAccess.DTO;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 176 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\GLAcctData_.razor"
+#line 216 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\GLAcctData_.razor"
       
 
     // very first load of table for gl_postings,,, displays number of rows
@@ -128,7 +128,8 @@ using DataAccess.DTO;
     private List<GL_Posting> gl_postings = new List<GL_Posting>();
     public List<GLPS_Data> glps_datas = new List<GLPS_Data>();
     List<TransactionSummary> transactionSummary = new List<TransactionSummary>();
-
+    private decimal? TotalCreditAmount;
+    private decimal? TotalDebitAmount;
 
     protected override async Task OnInitializedAsync()
     {
@@ -158,6 +159,14 @@ using DataAccess.DTO;
         }
         List<int> selectedIdsOfList = selectedIds.ToList();
         transactionSummary = glPostingService.GetTransactionsSummary(selectedIdsOfList);
+        foreach (var ts in transactionSummary)
+        {
+            if (ts.TotalCreditAmount == null)
+                TotalDebitAmount = ts.TotalDebitAmount;
+            else
+                TotalCreditAmount = ts.TotalCreditAmount;
+        }
+
 
         var flag = false;
         foreach (var pid in selectedIdsOfList)
@@ -190,12 +199,13 @@ using DataAccess.DTO;
         }
         else
         {
+            glps_datas = new List<GLPS_Data>();
             return new List<GLPS_Data>();
         }
     }
 
 
-    // filter    
+    // filter
     private SourceEnum sourceValue { get; set; } = SourceEnum.NONE;
     public enum SourceEnum { NONE, PJ, AB, CD, EF, JH }
     DateTime? fromTRDate = DateTime.Today;
