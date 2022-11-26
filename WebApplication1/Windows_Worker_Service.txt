@@ -1,0 +1,7 @@
+﻿sc.exe create WorkerService1 binpath= "C:\Publish\WorkerService.exe" start=auto
+
+sc description WorkerService1 "This is a worker service example"
+
+sc start WorkerService1
+
+SC DELETE WorkerService1
