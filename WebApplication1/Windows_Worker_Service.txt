@@ -1,7 +1,9 @@
-﻿sc.exe create WorkerService1 binpath= "C:\Publish\WorkerService.exe" start=auto
+﻿sc.exe create DataXFerService binpath= "C:\BlazorApps\BlazorServerApp\haha\DataTransfer_WorkerService.exe" start=auto
+C:\BlazorApps\BlazorServerApp\WorkerSrcPublish
 
-sc description WorkerService1 "This is a worker service example"
 
-sc start WorkerService1
+sc description DataXFerService "This is a data xfer worker service example"
 
-SC DELETE WorkerService1
+sc start DataXFerService
+
+SC DELETE DataXFerService

@@ -1,9 +1,0 @@
-C:\BlazorApps\BlazorServerApp\WorkerSrc\bin\Release\netcoreapp3.1\WorkerSrc.deps.json
-C:\BlazorApps\BlazorServerApp\WorkerSrc\bin\Release\netcoreapp3.1\WorkerSrc.dll
-C:\BlazorApps\BlazorServerApp\WorkerSrc\bin\Release\netcoreapp3.1\WorkerSrc.pdb
-C:\BlazorApps\BlazorServerApp\WorkerSrc\obj\Release\netcoreapp3.1\WorkerSrc.csproj.AssemblyReference.cache
-C:\BlazorApps\BlazorServerApp\WorkerSrc\obj\Release\netcoreapp3.1\WorkerSrc.AssemblyInfoInputs.cache
-C:\BlazorApps\BlazorServerApp\WorkerSrc\obj\Release\netcoreapp3.1\WorkerSrc.AssemblyInfo.cs
-C:\BlazorApps\BlazorServerApp\WorkerSrc\obj\Release\netcoreapp3.1\WorkerSrc.csproj.CoreCompileInputs.cache
-C:\BlazorApps\BlazorServerApp\WorkerSrc\obj\Release\netcoreapp3.1\WorkerSrc.dll
-C:\BlazorApps\BlazorServerApp\WorkerSrc\obj\Release\netcoreapp3.1\WorkerSrc.pdb
