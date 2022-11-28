@@ -14,22 +14,11 @@ namespace APIWorkerService
         readonly ILogger<Worker> _logger;
         readonly IStudentService studentService;
 
-        private int number = 0;
         public Worker(ILogger<Worker> logger, IStudentService studentService)
         {
             _logger = logger;
             this.studentService = studentService;
-        }
-
-        public async Task DoWork(CancellationToken cancellationToken)
-        {
-            while (!cancellationToken.IsCancellationRequested)
-            {                
-                Interlocked.Increment(ref number);
-                _logger.LogInformation("now the number is : {number}", number);
-                await Task.Delay(2 * 1000);
-            }
-        }
+        }    
 
         public async Task AddStudentCompleted(CancellationToken cancellationToken)
         {
@@ -41,28 +30,59 @@ namespace APIWorkerService
         {
             bool flag = cancellationToken.IsCancellationRequested;
 
+            int count = 1;
+
             // while (!cancellationToken.IsCancellationRequested)
-            while (!flag)
+            // while (!flag)
+            while (count<=10)
             {
                 if(studentService.AddStudent(new Student()
                 { 
-                     Email = "student-11@gmail.com",
-                      FirstName="student-11-firstname",
-                       LastName = "student-11-lastname",
+                     Email = "student-"+count+"@gmail.com",
+                      FirstName="student-"+count+"-firstname",
+                       LastName = "student-"+count+"-lastname",
                         PhoneNumber = "123-456-7890"
                 }))
                 {
                     // _logger.LogInformation("now the number is : {number}", number);
                     _logger.LogInformation("New Student Added To Database Successfully!");
                     await Task.Delay(2 * 1000);
+                    // flag = true;
+                    count++;
+                }
+                else
+                {
+                    // flag = true;
+
+                    // something goes wrong @ student-service, then stop adding
+                    // further student @ db and return back from
+                    // AddStudent async task here
+                    count = 11;
+                }                
+            }
+        }
+
+        public async Task<List<Student>> GetAllStudents(CancellationToken cancellationToken)
+        {
+            bool flag = cancellationToken.IsCancellationRequested;
+            List<Student> students = new List<Student>();
+
+            while (!flag)
+            {
+                students = studentService.GetStudents();
+                if (students!=null && students.Count()>0)
+                {                    
+                    _logger.LogInformation("Getting All Students Successfully!");
+                    await Task.Delay(5 * 1000);
                     flag = true;
                 }
                 else
                 {
                     flag = true;
-                }                
+                }
             }
+            return students;
         }
-     
+
     }
 }

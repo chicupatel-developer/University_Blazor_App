@@ -15,5 +15,6 @@ namespace DataAccess.Contracts
         List<TransactionSummary> GetTransactionsSummary(List<int> ids);
 
         bool AddStudent(Student student);
+        
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DataAccess.Contracts;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
@@ -21,13 +22,16 @@ namespace APIWorkerService.Controllers
         private readonly ILogger<WeatherForecastController> _logger;
         
         private readonly WorkerService _workerService;
-        
+        private readonly IStudentService _studentService;
+
         public WeatherForecastController(
           ILogger<WeatherForecastController> logger,
-          WorkerService workerService)
+          WorkerService workerService,
+          IStudentService studentService)
         {
             _logger = logger;
             _workerService = workerService;
+            _studentService = studentService;
         }
      
 
@@ -38,6 +42,25 @@ namespace APIWorkerService.Controllers
             await _workerService.StartAsync(HttpContext.RequestAborted);
             return Ok("Student Added");
         }
+
+        [HttpGet]
+        [Route("getstudents")]
+        // public async Task<IActionResult> GetStudents()
+        public IActionResult GetStudents()
+        {
+
+            return Ok(_studentService.GetStudents());
+
+            /*
+            await _workerService.StartAsync(HttpContext.RequestAborted);
+            return Ok("All Students Got");
+            */
+
+        }
+
+
+
+
 
         [HttpGet]
         [Route("gettemps")]
@@ -52,8 +75,7 @@ namespace APIWorkerService.Controllers
             })
             .ToArray();
         }
-
-        
+ 
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {

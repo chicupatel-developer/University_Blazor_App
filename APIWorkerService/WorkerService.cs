@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using DataAccess.Models;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,22 +17,10 @@ namespace APIWorkerService
             this.worker = worker;
         }
 
-        // private int number = 0;
-
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            // await worker.DoWork(cancellationToken);
-
             await worker.AddStudent(cancellationToken);
-
-            /*
-            while (!cancellationToken.IsCancellationRequested)
-            {
-                Interlocked.Increment(ref number);
-                Console.WriteLine("now the number is :", number);
-                await Task.Delay(2 * 1000);
-            }
-            */
+            // await worker.GetAllStudents(cancellationToken);          
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)
