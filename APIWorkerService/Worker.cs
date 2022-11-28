@@ -31,6 +31,12 @@ namespace APIWorkerService
             }
         }
 
+        public async Task AddStudentCompleted(CancellationToken cancellationToken)
+        {
+            _logger.LogInformation("Add-Student Task Is Completed And Exit From Process!");
+            await Task.Delay(2 * 1000);
+        }
+
         public async Task AddStudent(CancellationToken cancellationToken)
         {
             bool flag = cancellationToken.IsCancellationRequested;
@@ -46,7 +52,8 @@ namespace APIWorkerService
                         PhoneNumber = "123-456-7890"
                 }))
                 {
-                    _logger.LogInformation("now the number is : {number}", number);
+                    // _logger.LogInformation("now the number is : {number}", number);
+                    _logger.LogInformation("New Student Added To Database Successfully!");
                     await Task.Delay(2 * 1000);
                     flag = true;
                 }

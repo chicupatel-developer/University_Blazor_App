@@ -29,13 +29,7 @@ namespace APIWorkerService.Controllers
             _logger = logger;
             _workerService = workerService;
         }
-
-        [HttpGet]
-        public async Task<IActionResult> GetAsync()
-        {
-            await _workerService.StartAsync(HttpContext.RequestAborted);
-            return Ok("OK");
-        }
+     
 
         [HttpGet]
         [Route("addstudent")]
@@ -59,7 +53,7 @@ namespace APIWorkerService.Controllers
             .ToArray();
         }
 
-        /*
+        
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
@@ -72,6 +66,5 @@ namespace APIWorkerService.Controllers
             })
             .ToArray();
         }
-        */
     }
 }

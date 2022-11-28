@@ -30,16 +30,17 @@ namespace APIWorkerService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-
-        
-            services.AddScoped<IStudentService, StudentService>();
-
-            services.AddSingleton<IWorker, Worker>();
+            
             // services.AddHostedService<WorkerService>();
 
-            services.AddSingleton<WorkerService>();
+            services.AddDbContext<ApplicationDbContext>(options =>
+                 options.UseSqlServer(
+                   Configuration.GetConnectionString("UWDatabase"),
+                   b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("UWDatabase")));
+            services.AddTransient<IStudentService, StudentService>();
+            services.AddTransient<IWorker, Worker>();
+            services.AddTransient<WorkerService>();
 
         }
 

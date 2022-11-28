@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace APIWorkerService
 {
-    public class WorkerService : IHostedService, IDisposable
+    public class WorkerService : IHostedService
     {
         private readonly IWorker worker;
 
@@ -17,12 +17,6 @@ namespace APIWorkerService
         }
 
         // private int number = 0;
-
-        // for timer object
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
@@ -40,9 +34,9 @@ namespace APIWorkerService
             */
         }
 
-        public Task StopAsync(CancellationToken cancellationToken)
+        public async Task StopAsync(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            await worker.AddStudentCompleted(cancellationToken);
         }    
     }
 }

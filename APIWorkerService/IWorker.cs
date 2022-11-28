@@ -13,5 +13,6 @@ namespace APIWorkerService
         Task DoWork(CancellationToken cancellationToken);
 
         Task AddStudent(CancellationToken cancellationToken);
+        Task AddStudentCompleted(CancellationToken cancellationToken);
     }
 }
