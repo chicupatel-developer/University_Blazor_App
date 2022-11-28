@@ -26,7 +26,10 @@ namespace APIWorkerService
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            await worker.DoWork(cancellationToken);
+            // await worker.DoWork(cancellationToken);
+
+            await worker.AddStudent(cancellationToken);
+
             /*
             while (!cancellationToken.IsCancellationRequested)
             {

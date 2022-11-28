@@ -35,9 +35,29 @@ namespace APIWorkerService.Controllers
         {
             await _workerService.StartAsync(HttpContext.RequestAborted);
             return Ok("OK");
-        }    
-       
+        }
 
+        [HttpGet]
+        [Route("addstudent")]
+        public async Task<IActionResult> AddStudent()
+        {
+            await _workerService.StartAsync(HttpContext.RequestAborted);
+            return Ok("Student Added");
+        }
+
+        [HttpGet]
+        [Route("gettemps")]
+        public IEnumerable<WeatherForecast> AccessTemps()
+        {
+            var rng = new Random();
+            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            {
+                Date = DateTime.Now.AddDays(index),
+                TemperatureC = rng.Next(-20, 55),
+                Summary = Summaries[rng.Next(Summaries.Length)]
+            })
+            .ToArray();
+        }
 
         /*
         [HttpGet]

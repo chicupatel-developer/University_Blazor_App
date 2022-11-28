@@ -70,5 +70,19 @@ namespace DataAccess.Services
             else
                 return transactionSummary;
         }
+
+        public bool AddStudent(Student student)
+        {
+            try
+            {
+                _dbContext.Students.Add(student);
+                _dbContext.SaveChanges();
+                return true;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }          
+        }
     }
 }
