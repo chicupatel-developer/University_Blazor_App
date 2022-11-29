@@ -1,10 +1,8 @@
 ﻿@page "/students"
 
-<h3>University-Students</h3>
 
 
 @inject BlazorServerApp.ApiCallHelpers.StudentsApiClient studentsApi
-
 
 
 @inject DataAccess.Contracts.IStudentService studentService
@@ -12,6 +10,48 @@
 @using DataAccess.DTO
 @inject MudBlazor.ISnackbar snackBar
 
+    <style>
+        .addStudentsBtn {
+            font-size: medium;
+            padding: 30px;
+            margin: 10px;
+        }
+        .btnHeader {
+            padding-bottom: 10px;
+            margin-bottom:10px;
+            font-weight: bold;
+            font-size: x-large;
+        }
+        .btnDetails{            
+            margin-top:25px;
+            font-size:large;
+            color:red;
+            font-weight:bold;
+            background-color:white;
+            padding:10px;
+        }
+    </style>
+
+<h3>University-Students</h3>
+<p></p>
+<div class="container">
+    <MudButton Class="addStudentsBtn"
+               @onclick="@( (x) => CallWorkerProcess())"
+               Variant="Variant.Filled"
+               Color="Color.Tertiary">
+        <span>
+            <span class="oi oi-arrow-thick-top btnHeader" aria-hidden="true">
+                Add Students
+            </span>
+            <br />
+            <span class="btnDetails">
+                [Blazor App --&gt;&gt; Web API [Student-Controller --&gt;&gt; Worker-Service(StartAsync)] ]
+            </span>
+        </span>
+      
+    </MudButton>
+</div>
+<p></p>
 
 <MudPaper Square="true" Class="d-flex justify-space-around">
     <!-- students -->
@@ -80,12 +120,6 @@
 </MudPaper>
 
 
-@if (selectedStudent != null)
-{
-    <span>Last Selected Student: @selectedStudent.FirstName</span>
-    <br />
-}
-
 <!-- transactions for selected student-->
 <MudGrid>
     <MudItem xs="12">
@@ -129,7 +163,8 @@
 </MudGrid>
 
 
-@code{
+@code{     
+
 
     // very first load of table for students,,, displays number of rows
     // in table
@@ -153,7 +188,11 @@
     List<TransactionSummary> transactionSummary = new List<TransactionSummary>();
 
 
+    // call worker-process
+    private void CallWorkerProcess()
+    {
 
+    }
 
     protected override async Task OnInitializedAsync()
     {

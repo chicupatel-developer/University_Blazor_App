@@ -83,14 +83,14 @@ using MudBlazor;
 #line hidden
 #nullable disable
 #nullable restore
-#line 11 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Student_.razor"
+#line 9 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Student_.razor"
 using DataAccess.Models;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 12 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Student_.razor"
+#line 10 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Student_.razor"
 using DataAccess.DTO;
 
 #line default
@@ -105,8 +105,9 @@ using DataAccess.DTO;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 132 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Student_.razor"
-      
+#line 166 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Student_.razor"
+           
+
 
     // very first load of table for students,,, displays number of rows
     // in table
@@ -130,7 +131,11 @@ using DataAccess.DTO;
     List<TransactionSummary> transactionSummary = new List<TransactionSummary>();
 
 
+    // call worker-process
+    private void CallWorkerProcess()
+    {
 
+    }
 
     protected override async Task OnInitializedAsync()
     {
