@@ -62,27 +62,5 @@ namespace APIWorkerService
             }
         }
 
-        public async Task<List<Student>> GetAllStudents(CancellationToken cancellationToken)
-        {
-            bool flag = cancellationToken.IsCancellationRequested;
-            List<Student> students = new List<Student>();
-
-            while (!flag)
-            {
-                students = studentService.GetStudents();
-                if (students!=null && students.Count()>0)
-                {                    
-                    _logger.LogInformation("Getting All Students Successfully!");
-                    await Task.Delay(5 * 1000);
-                    flag = true;
-                }
-                else
-                {
-                    flag = true;
-                }
-            }
-            return students;
-        }
-
     }
 }

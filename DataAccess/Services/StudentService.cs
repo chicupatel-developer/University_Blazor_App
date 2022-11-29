@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DataAccess.DTO;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Services
 {
@@ -16,9 +18,9 @@ namespace DataAccess.Services
             _dbContext = context;
         }
      
-        public List<Student> GetStudents()
+        public async Task<List<Student>> GetStudents()
         {
-            return _dbContext.Students.ToList();
+            return await _dbContext.Students.ToListAsync();
         }   
         
         public Student GetStudent(int id)

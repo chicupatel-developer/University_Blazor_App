@@ -105,8 +105,19 @@ using DataAccess.DTO;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 127 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Student_.razor"
+#line 128 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Student_.razor"
       
+
+    // very first load of table for students,,, displays number of rows
+    // in table
+    // @ref="table" code in table configuration
+    private MudTable<Student> table;
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        table.SetRowsPerPage(5);
+        return base.OnAfterRenderAsync(firstRender);
+    }
+
 
     private bool hover = true;
     private HashSet<Student> selectedStudents = new HashSet<Student>();
@@ -121,14 +132,19 @@ using DataAccess.DTO;
 
     protected override async Task OnInitializedAsync()
     {
-        GetStudents();
+        // GetStudents();
+        await GetStudents();
     }
-    private List<Student> GetStudents()
+
+    private async Task<List<Student>> GetStudents()
+    // private List<Student> GetStudents()
     {
-        students = studentService.GetStudents();
+        // students = studentService.GetStudents();
+        students = await studentService.GetStudents();
 
         return students;
     }
+
     private Student GetStudent(int id)
     {
         student = studentService.GetStudent(id);
@@ -154,7 +170,7 @@ using DataAccess.DTO;
         }
         List<int> selectedIdsOfList = selectedIds.ToList();
         transactionSummary = studentService.GetTransactionsSummary(selectedIdsOfList);
-               
+
 
         var flag = false;
         foreach (var sid in selectedIdsOfList)
@@ -187,6 +203,7 @@ using DataAccess.DTO;
         }
         else
         {
+            transactions = new List<Transaction>();
             return new List<Transaction>();
         }
     }

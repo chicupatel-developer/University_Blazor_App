@@ -11,7 +11,8 @@
 
 <MudPaper Square="true" Class="d-flex justify-space-around">
     <!-- students -->
-    <MudTable Items="@GetStudents()"
+    <MudTable Items="@students"
+              @ref="table"
               @onclick="@( (x) => ClickEvent(selectedStudents.LastOrDefault()))"
               Height="350px"
               Breakpoint="Breakpoint.Sm"
@@ -126,6 +127,17 @@
 
 @code{
 
+    // very first load of table for students,,, displays number of rows
+    // in table
+    // @ref="table" code in table configuration
+    private MudTable<Student> table;
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        table.SetRowsPerPage(5);
+        return base.OnAfterRenderAsync(firstRender);
+    }
+
+
     private bool hover = true;
     private HashSet<Student> selectedStudents = new HashSet<Student>();
     private Student selectedStudent = new Student();
@@ -139,14 +151,19 @@
 
     protected override async Task OnInitializedAsync()
     {
-        GetStudents();
+        // GetStudents();
+        await GetStudents();
     }
-    private List<Student> GetStudents()
+
+    private async Task<List<Student>> GetStudents()
+    // private List<Student> GetStudents()
     {
-        students = studentService.GetStudents();
+        // students = studentService.GetStudents();
+        students = await studentService.GetStudents();
 
         return students;
     }
+
     private Student GetStudent(int id)
     {
         student = studentService.GetStudent(id);
@@ -172,7 +189,7 @@
         }
         List<int> selectedIdsOfList = selectedIds.ToList();
         transactionSummary = studentService.GetTransactionsSummary(selectedIdsOfList);
-               
+
 
         var flag = false;
         foreach (var sid in selectedIdsOfList)
@@ -205,6 +222,7 @@
         }
         else
         {
+            transactions = new List<Transaction>();
             return new List<Transaction>();
         }
     }
