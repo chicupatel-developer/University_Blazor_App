@@ -18,5 +18,7 @@ namespace DataAccess.Models
         public string Email { get; set; }
 
         public ICollection<Transaction> Transactions { get; set; }
+        public ICollection<StudentCourse> StudentCourse { get; set; }
+
     }
 }

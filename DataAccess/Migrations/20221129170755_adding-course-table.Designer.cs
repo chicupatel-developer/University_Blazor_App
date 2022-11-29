@@ -4,14 +4,16 @@ using DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221129170755_adding-course-table")]
+    partial class addingcoursetable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -112,21 +114,6 @@ namespace DataAccess.Migrations
                     b.ToTable("Students");
                 });
 
-            modelBuilder.Entity("DataAccess.Models.StudentCourse", b =>
-                {
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
-
-                    b.HasKey("StudentId", "CourseId");
-
-                    b.HasIndex("CourseId");
-
-                    b.ToTable("StudentsCourses");
-                });
-
             modelBuilder.Entity("DataAccess.Models.Transaction", b =>
                 {
                     b.Property<int>("TransactionId")
@@ -161,21 +148,6 @@ namespace DataAccess.Migrations
                     b.HasOne("DataAccess.Models.GL_Posting", "GL_Posting")
                         .WithMany("GLPSDatas")
                         .HasForeignKey("PostingsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("DataAccess.Models.StudentCourse", b =>
-                {
-                    b.HasOne("DataAccess.Models.Course", "Course")
-                        .WithMany("StudentCourse")
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DataAccess.Models.Student", "Student")
-                        .WithMany("StudentCourse")
-                        .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
