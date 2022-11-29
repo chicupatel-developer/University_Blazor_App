@@ -3,6 +3,10 @@
 <h3>University-Students</h3>
 
 
+@inject BlazorServerApp.ApiCallHelpers.StudentsApiClient studentsApi
+
+
+
 @inject DataAccess.Contracts.IStudentService studentService
 @using DataAccess.Models
 @using DataAccess.DTO
@@ -149,10 +153,21 @@
     List<TransactionSummary> transactionSummary = new List<TransactionSummary>();
 
 
+
+
     protected override async Task OnInitializedAsync()
     {
+        // call to api-student-controller
+        // this student-controller[api-worker-service-controller],,,
+        // next uses student-service[data-access-service]
+        // comment line,,, await GetStudents();
+        students = await studentsApi.GetStudentsAsync();
+
+
+
+
         // GetStudents();
-        await GetStudents();
+        // await GetStudents();
     }
 
     private async Task<List<Student>> GetStudents()

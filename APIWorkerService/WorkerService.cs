@@ -19,8 +19,7 @@ namespace APIWorkerService
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            await worker.AddStudent(cancellationToken);
-            // await worker.GetAllStudents(cancellationToken);          
+            await worker.AddStudent(cancellationToken);       
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)

@@ -88,3 +88,4 @@ C:\BlazorApps\BlazorServerApp\WebApplication1\obj\Debug\netcoreapp3.1\RazorDecla
 C:\BlazorApps\BlazorServerApp\WebApplication1\obj\Debug\netcoreapp3.1\Razor\Pages\Student_.razor.g.cs
 C:\BlazorApps\BlazorServerApp\WebApplication1\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\GLAcctData_.razor.g.cs
 C:\BlazorApps\BlazorServerApp\WebApplication1\obj\Debug\netcoreapp3.1\Razor\Pages\GLAcctData_.razor.g.cs
+C:\BlazorApps\BlazorServerApp\WebApplication1\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll

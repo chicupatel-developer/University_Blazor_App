@@ -15,6 +15,7 @@ using DataAccess;
 using Microsoft.EntityFrameworkCore;
 using DataAccess.Contracts;
 using DataAccess.Services;
+using BlazorServerApp.ApiCallHelpers;
 
 namespace BlazorServerApp
 {
@@ -32,13 +33,21 @@ namespace BlazorServerApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
-            services.AddServerSideBlazor();
+            services.AddServerSideBlazor();                       
+
             services.AddSingleton<WeatherForecastService>();
 
             services.AddMudServices();
 
+            // call to api-student-controller
+            services.AddHttpClient<StudentsApiClient>();
+
+            // app-db-context
+            // database
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("UWDatabase")));
 
+            // services from data-access project
+            // call to services
             services.AddScoped<IStudentService, StudentService>();
             services.AddScoped<IGLPostingService, GLPostingService>();
 

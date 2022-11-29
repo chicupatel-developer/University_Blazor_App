@@ -41,9 +41,11 @@ namespace APIWorkerService.Controllers
         [HttpGet]
         [Route("getstudents")]
         // public IActionResult GetStudents()
-        public async Task<List<Student>> GetStudents()
+        // public async Task<List<Student>> GetStudents()
+        public async Task<IActionResult> GetStudents()
         {
-            return await _studentService.GetStudents();          
+            // return await _studentService.GetStudents();          
+            return Ok(await _studentService.GetStudents());
         }
     }
 }

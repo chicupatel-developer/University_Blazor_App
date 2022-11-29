@@ -83,14 +83,14 @@ using MudBlazor;
 #line hidden
 #nullable disable
 #nullable restore
-#line 7 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Student_.razor"
+#line 11 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Student_.razor"
 using DataAccess.Models;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 8 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Student_.razor"
+#line 12 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Student_.razor"
 using DataAccess.DTO;
 
 #line default
@@ -105,7 +105,7 @@ using DataAccess.DTO;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 128 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Student_.razor"
+#line 132 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Student_.razor"
       
 
     // very first load of table for students,,, displays number of rows
@@ -130,10 +130,21 @@ using DataAccess.DTO;
     List<TransactionSummary> transactionSummary = new List<TransactionSummary>();
 
 
+
+
     protected override async Task OnInitializedAsync()
     {
+        // call to api-student-controller
+        // this student-controller[api-worker-service-controller],,,
+        // next uses student-service[data-access-service]
+        // comment line,,, await GetStudents();
+        students = await studentsApi.GetStudentsAsync();
+
+
+
+
         // GetStudents();
-        await GetStudents();
+        // await GetStudents();
     }
 
     private async Task<List<Student>> GetStudents()
@@ -213,6 +224,7 @@ using DataAccess.DTO;
 #nullable disable
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private MudBlazor.ISnackbar snackBar { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private DataAccess.Contracts.IStudentService studentService { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private BlazorServerApp.ApiCallHelpers.StudentsApiClient studentsApi { get; set; }
     }
 }
 #pragma warning restore 1591
