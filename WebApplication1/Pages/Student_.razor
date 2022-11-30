@@ -1,5 +1,4 @@
 ﻿@page "/students"
-
 <!-- web api connector -->
 @inject BlazorServerApp.ApiCallHelpers.StudentsApiClient studentsApi
 <!-- service project connector -->
@@ -75,6 +74,17 @@
     </MudButton>
 </div>
 <p></p>
+<!-- response from db-background-worker-process @@ web-api -->
+<div class="container d-flex justify-space-around">
+    @if (BKP_Response_DB.Response != null)
+    {
+        <div class="container bkpResponse d-flex justify-space-around">
+            @BKP_Response_DB.Response
+        </div>
+    }
+</div>
+<p></p>
+
 
 <!-- add students to csv file by background-worker-process @@ web-api -->
 <div class="container d-flex justify-space-around">
@@ -94,19 +104,16 @@
     </MudButton>
 </div>
 <p></p>
-
-
-<!-- response from background-worker-process @@ web-api -->
+<!-- response from csvfile-background-worker-process @@ web-api -->
 <div class="container d-flex justify-space-around">
-    @if (BKP_Response.Response != null)
+    @if (BKP_Response_CSVFile.Response != null)
     {
         <div class="container bkpResponse d-flex justify-space-around">
-            @BKP_Response.Response
+            @BKP_Response_CSVFile.Response
         </div>
     }
 </div>
 <p></p>
-
 
 <!-- refresh students -->
 <!-- call to web-api -->
@@ -268,7 +275,8 @@
 
 
     // response from background-worker-process
-    private BKProcessResponse BKP_Response = new BKProcessResponse();
+    private BKProcessResponse BKP_Response_DB = new BKProcessResponse();
+    private BKProcessResponse BKP_Response_CSVFile = new BKProcessResponse();
 
     // refresh-students
     // web-api call
@@ -282,7 +290,7 @@
     // via web-api call
     private async Task CallWorkerProcess_CSVFile()
     {
-        BKP_Response = await studentsApi.AddStudentsToCSV_File_BackgroundWorkerProcessAsync();
+        BKP_Response_CSVFile = await studentsApi.AddStudentsToCSV_File_BackgroundWorkerProcessAsync();
     }
 
     // add students to db
@@ -290,7 +298,7 @@
     // via web-api call
     private async Task CallWorkerProcess_DB()
     {
-        BKP_Response = await studentsApi.AddStudentsToDB_BackgroundWorkerProcessAsync();
+        BKP_Response_DB = await studentsApi.AddStudentsToDB_BackgroundWorkerProcessAsync();
     }
 
     protected override async Task OnInitializedAsync()
