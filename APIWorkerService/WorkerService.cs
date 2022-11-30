@@ -19,12 +19,12 @@ namespace APIWorkerService
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            await worker.AddStudent(cancellationToken);       
+            await worker.AddStudents_BK_Worker_Process(cancellationToken);       
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)
         {
-            await worker.AddStudentCompleted(cancellationToken);
+            await worker.AddStudentsCompleted(cancellationToken);
         }    
     }
 }

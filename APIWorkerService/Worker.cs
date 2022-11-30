@@ -20,21 +20,21 @@ namespace APIWorkerService
             this.studentService = studentService;
         }    
 
-        public async Task AddStudentCompleted(CancellationToken cancellationToken)
+        public async Task AddStudentsCompleted(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Add-Student Task Is Completed And Exit From Process!");
+            _logger.LogInformation("Add-Students Task Is Completed And Exit From Process!");
             await Task.Delay(2 * 1000);
         }
 
-        public async Task AddStudent(CancellationToken cancellationToken)
+        public async Task AddStudents_BK_Worker_Process(CancellationToken cancellationToken)
         {
             bool flag = cancellationToken.IsCancellationRequested;
 
-            int count = 1;
+            int count = 21;
 
             // while (!cancellationToken.IsCancellationRequested)
             // while (!flag)
-            while (count<=10)
+            while (count<=30)
             {
                 if(studentService.AddStudent(new Student()
                 { 
@@ -43,10 +43,9 @@ namespace APIWorkerService
                        LastName = "student-"+count+"-lastname",
                         PhoneNumber = "123-456-7890"
                 }))
-                {
-                    // _logger.LogInformation("now the number is : {number}", number);
+                {               
                     _logger.LogInformation("New Student Added To Database Successfully!");
-                    await Task.Delay(2 * 1000);
+                    await Task.Delay(1 * 1000);
                     // flag = true;
                     count++;
                 }
@@ -57,10 +56,9 @@ namespace APIWorkerService
                     // something goes wrong @ student-service, then stop adding
                     // further student @ db and return back from
                     // AddStudent async task here
-                    count = 11;
+                    count = 31;
                 }                
             }
         }
-
     }
 }

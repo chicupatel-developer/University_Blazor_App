@@ -1,40 +1,60 @@
 ﻿@page "/students"
 
 
-
+<!-- web api connector -->
 @inject BlazorServerApp.ApiCallHelpers.StudentsApiClient studentsApi
 
-
+<!-- service project connector -->
 @inject DataAccess.Contracts.IStudentService studentService
 @using DataAccess.Models
 @using DataAccess.DTO
 @inject MudBlazor.ISnackbar snackBar
 
-    <style>
-        .addStudentsBtn {
-            font-size: medium;
-            padding: 30px;
-            margin: 10px;
-        }
-        .btnHeader {
-            padding-bottom: 10px;
-            margin-bottom:10px;
-            font-weight: bold;
-            font-size: x-large;
-        }
-        .btnDetails{            
-            margin-top:25px;
-            font-size:large;
-            color:red;
-            font-weight:bold;
-            background-color:white;
-            padding:10px;
-        }
-    </style>
+<style>
+    .refreshBtn {
+        font-size: medium;
+        padding: 30px;
+        margin: 10px;
+    }
+
+    .addStudentsBtn {
+        font-size: medium;
+        padding: 30px;
+        margin: 10px;
+    }
+
+    .btnHeader {
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+        font-weight: bold;
+        font-size: x-large;
+    }
+
+    .btnDetails {
+        margin-top: 25px;
+        margin-bottom: 50px;
+        font-size: large;
+        color: blue;
+        font-weight: bold;
+        background-color: white;
+        padding: 10px;
+    }
+
+    .bkpResponse {
+        margin-top: 15px;
+        font-size: x-large;
+        color: white;
+        font-weight: bold;
+        background-color: black;
+        padding: 10px;
+    }
+</style>
 
 <h3>University-Students</h3>
 <p></p>
-<div class="container">
+
+<!-- add students by background-worker-process @@ web-api -->
+<div class="container d-flex justify-space-around">
     <MudButton Class="addStudentsBtn"
                @onclick="@( (x) => CallWorkerProcess())"
                Variant="Variant.Filled"
@@ -48,7 +68,34 @@
                 [Blazor App --&gt;&gt; Web API [Student-Controller --&gt;&gt; Worker-Service(StartAsync)] ]
             </span>
         </span>
-      
+    </MudButton>
+</div>
+<p></p>
+
+<!-- response from background-worker-process @@ web-api -->
+<div class="container d-flex justify-space-around">
+    @if (BKP_Response.Response != null)
+    {
+        <div class="container bkpResponse d-flex justify-space-around">
+            @BKP_Response.Response
+        </div>
+    }
+</div>
+<p></p>
+
+
+<!-- refresh students -->
+<!-- call to web-api -->
+<div class="container">
+    <MudButton Class="refreshBtn"
+               @onclick="@( (x) => RefreshStudents())"
+               Variant="Variant.Filled"
+               Color="Color.Secondary">
+        <span>
+            <span class="oi oi-reload" aria-hidden="true">
+                Refresh Students
+            </span>
+        </span>
     </MudButton>
 </div>
 <p></p>
@@ -163,7 +210,7 @@
 </MudGrid>
 
 
-@code{     
+@code{
 
 
     // very first load of table for students,,, displays number of rows
@@ -188,27 +235,38 @@
     List<TransactionSummary> transactionSummary = new List<TransactionSummary>();
 
 
-    // call worker-process
-    private void CallWorkerProcess()
-    {
+    // response from background-worker-process
+    private BKProcessResponse BKP_Response = new BKProcessResponse();
 
+    // refresh-students
+    // web-api call
+    private async Task RefreshStudents()
+    {
+        students = await studentsApi.GetStudentsAsync();
+    }
+
+    // call worker-process
+    // via web-api call
+    private async Task CallWorkerProcess()
+    {
+        BKP_Response = await studentsApi.AddStudentsBackgroundWorkerProcessAsync();
     }
 
     protected override async Task OnInitializedAsync()
     {
         // call to api-student-controller
         // this student-controller[api-worker-service-controller],,,
-        // next uses student-service[data-access-service]
+        // next uses student-service[data-access-service] to access database
         // comment line,,, await GetStudents();
         students = await studentsApi.GetStudentsAsync();
-
-
 
 
         // GetStudents();
         // await GetStudents();
     }
 
+    // no need for this code
+    // as blazor-app is calling api to get students    
     private async Task<List<Student>> GetStudents()
     // private List<Student> GetStudents()
     {

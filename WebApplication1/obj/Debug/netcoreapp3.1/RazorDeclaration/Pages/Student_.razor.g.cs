@@ -105,8 +105,8 @@ using DataAccess.DTO;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 166 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Student_.razor"
-           
+#line 213 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Student_.razor"
+      
 
 
     // very first load of table for students,,, displays number of rows
@@ -131,27 +131,38 @@ using DataAccess.DTO;
     List<TransactionSummary> transactionSummary = new List<TransactionSummary>();
 
 
-    // call worker-process
-    private void CallWorkerProcess()
-    {
+    // response from background-worker-process
+    private BKProcessResponse BKP_Response = new BKProcessResponse();
 
+    // refresh-students
+    // web-api call
+    private async Task RefreshStudents()
+    {
+        students = await studentsApi.GetStudentsAsync();
+    }
+
+    // call worker-process
+    // via web-api call
+    private async Task CallWorkerProcess()
+    {
+        BKP_Response = await studentsApi.AddStudentsBackgroundWorkerProcessAsync();
     }
 
     protected override async Task OnInitializedAsync()
     {
         // call to api-student-controller
         // this student-controller[api-worker-service-controller],,,
-        // next uses student-service[data-access-service]
+        // next uses student-service[data-access-service] to access database
         // comment line,,, await GetStudents();
         students = await studentsApi.GetStudentsAsync();
-
-
 
 
         // GetStudents();
         // await GetStudents();
     }
 
+    // no need for this code
+    // as blazor-app is calling api to get students    
     private async Task<List<Student>> GetStudents()
     // private List<Student> GetStudents()
     {

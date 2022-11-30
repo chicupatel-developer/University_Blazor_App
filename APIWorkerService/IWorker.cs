@@ -11,7 +11,7 @@ namespace APIWorkerService
 {
     public interface IWorker
     {      
-        Task AddStudent(CancellationToken cancellationToken);
-        Task AddStudentCompleted(CancellationToken cancellationToken);        
+        Task AddStudents_BK_Worker_Process(CancellationToken cancellationToken);
+        Task AddStudentsCompleted(CancellationToken cancellationToken);        
     }
 }

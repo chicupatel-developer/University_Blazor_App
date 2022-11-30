@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Text.Json;
 using Newtonsoft.Json;
+using DataAccess.DTO;
 
 namespace BlazorServerApp.ApiCallHelpers
 {
@@ -38,6 +39,25 @@ namespace BlazorServerApp.ApiCallHelpers
             }
 
             return new List<Student>();
+        }
+
+        public async Task<BKProcessResponse> AddStudentsBackgroundWorkerProcessAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync("https://localhost:44352/api/student/addstudents");
+                response.EnsureSuccessStatusCode();
+                string data = await response.Content.ReadAsStringAsync();
+
+                return JsonConvert.DeserializeObject<BKProcessResponse>(data);
+                // return data;
+            }
+            catch (Exception ex)
+            {
+                // Log and notify user
+            }
+
+            return new BKProcessResponse();
         }
     }
 }

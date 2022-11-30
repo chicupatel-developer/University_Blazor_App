@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using DataAccess.DTO;
 
 namespace APIWorkerService.Controllers
 {
@@ -31,11 +32,16 @@ namespace APIWorkerService.Controllers
         }
 
         [HttpGet]
-        [Route("addstudent")]
-        public async Task<IActionResult> AddStudent()
+        [Route("addstudents")]
+        public async Task<IActionResult> AddStudents_BK_Worker_Process()
         {
+            BKProcessResponse response = new BKProcessResponse();
+
             await _workerService.StartAsync(HttpContext.RequestAborted);
-            return Ok("Student Added");
+            response.Response = "BackGround Worker Process Done Successfully! Students Added Successfully!";
+
+            return Ok(response);
+            
         }
 
         [HttpGet]
