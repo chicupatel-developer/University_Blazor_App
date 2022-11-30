@@ -83,14 +83,14 @@ using MudBlazor;
 #line hidden
 #nullable disable
 #nullable restore
-#line 9 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Student_.razor"
+#line 7 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Student_.razor"
 using DataAccess.Models;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 10 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Student_.razor"
+#line 8 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Student_.razor"
 using DataAccess.DTO;
 
 #line default
@@ -105,7 +105,7 @@ using DataAccess.DTO;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 226 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Student_.razor"
+#line 245 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Student_.razor"
       
 
 
@@ -141,11 +141,20 @@ using DataAccess.DTO;
         students = await studentsApi.GetStudentsAsync();
     }
 
+    // add students to csv file
     // call worker-process
     // via web-api call
-    private async Task CallWorkerProcess()
+    private async Task CallWorkerProcess_CSVFile()
     {
-        BKP_Response = await studentsApi.AddStudentsBackgroundWorkerProcessAsync();
+        BKP_Response = await studentsApi.AddStudentsToCSV_File_BackgroundWorkerProcessAsync();
+    }
+
+    // add students to db
+    // call worker-process
+    // via web-api call
+    private async Task CallWorkerProcess_DB()
+    {
+        BKP_Response = await studentsApi.AddStudentsToDB_BackgroundWorkerProcessAsync();
     }
 
     protected override async Task OnInitializedAsync()
@@ -162,7 +171,7 @@ using DataAccess.DTO;
     }
 
     // no need for this code
-    // as blazor-app is calling api to get students    
+    // as blazor-app is calling api to get students
     private async Task<List<Student>> GetStudents()
     // private List<Student> GetStudents()
     {

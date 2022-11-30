@@ -18,27 +18,45 @@ namespace APIWorkerService.Controllers
     {
         private readonly ILogger<StudentController> _logger;
 
-        private readonly WorkerService _workerService;
+        private readonly StudentDBWorkerService _workerDbService;
+        private readonly StudentCSVFileWorkerService _workerCsvFileService;
         private readonly IStudentService _studentService;
 
         public StudentController(
           ILogger<StudentController> logger,
-          WorkerService workerService,
+          StudentDBWorkerService _workerDbService,
+          StudentCSVFileWorkerService _workerCsvFileService,
           IStudentService studentService)
         {
             _logger = logger;
-            _workerService = workerService;
+            this._workerDbService = _workerDbService;
+            this._workerCsvFileService = _workerCsvFileService;
             _studentService = studentService;
         }
 
+        // add 10 students to csv file via background-worker-process
         [HttpGet]
-        [Route("addstudents")]
-        public async Task<IActionResult> AddStudents_BK_Worker_Process()
+        [Route("add_students_to_csv_file")]
+        public async Task<IActionResult> Add_Students_To_CSV_File_BK_Worker_Process()
         {
             BKProcessResponse response = new BKProcessResponse();
 
-            await _workerService.StartAsync(HttpContext.RequestAborted);
-            response.Response = "BackGround Worker Process Done Successfully! Students Added Successfully!";
+            await _workerCsvFileService.StartAsync(HttpContext.RequestAborted);
+            response.Response = "BackGround Worker Process Done Successfully! Students Added To CSV File Successfully!";
+
+            return Ok(response);
+
+        }
+
+        // add 10 students to db via background-worker-process
+        [HttpGet]
+        [Route("add_students_to_db")]
+        public async Task<IActionResult> Add_Students_To_DB_BK_Worker_Process()
+        {
+            BKProcessResponse response = new BKProcessResponse();
+
+            await _workerDbService.StartAsync(HttpContext.RequestAborted);
+            response.Response = "BackGround Worker Process Done Successfully! Students Added To Database Successfully!";
 
             return Ok(response);
             

@@ -30,8 +30,8 @@ namespace APIWorkerService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            
-            // services.AddHostedService<WorkerService>();
+
+            // services.AddHostedService<StudentDBWorkerService>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                  options.UseSqlServer(
@@ -39,8 +39,9 @@ namespace APIWorkerService
                    b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 
             services.AddTransient<IStudentService, StudentService>();
-            services.AddTransient<IWorker, Worker>();
-            services.AddTransient<WorkerService>();
+            services.AddTransient<IStudentWorker, StudentWorker>();
+            services.AddTransient<StudentDBWorkerService>();
+            services.AddTransient<StudentCSVFileWorkerService>();
 
         }
 

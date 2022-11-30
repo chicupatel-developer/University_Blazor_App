@@ -3,18 +3,20 @@ using DataAccess.Models;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace APIWorkerService
 {
-    public class Worker : IWorker
+    public class StudentWorker : IStudentWorker
     {
-        readonly ILogger<Worker> _logger;
+        readonly ILogger<StudentWorker> _logger;
         readonly IStudentService studentService;
 
-        public Worker(ILogger<Worker> logger, IStudentService studentService)
+        public StudentWorker(ILogger<StudentWorker> logger, IStudentService studentService)
         {
             _logger = logger;
             this.studentService = studentService;
@@ -58,6 +60,40 @@ namespace APIWorkerService
                     // AddStudent async task here
                     count = 31;
                 }                
+            }
+        }
+
+
+        public async Task Generate_CSV_Students_File_BK_Worker_Process(CancellationToken cancellationToken)
+        {
+            // bool flag = cancellationToken.IsCancellationRequested;
+
+            int count = 1;
+
+            string fileName = @"C:\BlazorApps\BlazorServerApp\TXT_Files\Students.txt";
+                    
+            try
+            {     
+                if (File.Exists(fileName))
+                {
+                    File.Delete(fileName);
+                }
+
+                using (FileStream fs = File.Create(fileName))
+                {
+                    while (count <= 10)
+                    {
+                        Byte[] student = new UTF8Encoding(true).GetBytes(count+ ":Student"+ count+ "-FirstName:Student"+count+"-LastName");
+                        fs.Write(student, 0, student.Length);
+
+                        await Task.Delay(1 * 1000);
+                        count++;
+                    }                 
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
             }
         }
     }

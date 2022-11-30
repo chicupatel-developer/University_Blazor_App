@@ -9,9 +9,10 @@ using System.Collections.Generic;
 
 namespace APIWorkerService
 {
-    public interface IWorker
+    public interface IStudentWorker
     {      
         Task AddStudents_BK_Worker_Process(CancellationToken cancellationToken);
-        Task AddStudentsCompleted(CancellationToken cancellationToken);        
+        Task AddStudentsCompleted(CancellationToken cancellationToken);
+        Task Generate_CSV_Students_File_BK_Worker_Process(CancellationToken cancellationToken);
     }
 }

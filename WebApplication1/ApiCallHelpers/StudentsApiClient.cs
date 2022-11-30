@@ -41,11 +41,30 @@ namespace BlazorServerApp.ApiCallHelpers
             return new List<Student>();
         }
 
-        public async Task<BKProcessResponse> AddStudentsBackgroundWorkerProcessAsync()
+        public async Task<BKProcessResponse> AddStudentsToDB_BackgroundWorkerProcessAsync()
         {
             try
             {
-                var response = await _httpClient.GetAsync("https://localhost:44352/api/student/addstudents");
+                var response = await _httpClient.GetAsync("https://localhost:44352/api/student/add_students_to_db");
+                response.EnsureSuccessStatusCode();
+                string data = await response.Content.ReadAsStringAsync();
+
+                return JsonConvert.DeserializeObject<BKProcessResponse>(data);
+                // return data;
+            }
+            catch (Exception ex)
+            {
+                // Log and notify user
+            }
+
+            return new BKProcessResponse();
+        }
+
+        public async Task<BKProcessResponse> AddStudentsToCSV_File_BackgroundWorkerProcessAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync("https://localhost:44352/api/student/add_students_to_csv_file");
                 response.EnsureSuccessStatusCode();
                 string data = await response.Content.ReadAsStringAsync();
 

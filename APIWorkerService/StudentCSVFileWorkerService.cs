@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace APIWorkerService
 {
-    public class WorkerService : IHostedService
+    public class StudentCSVFileWorkerService : IHostedService
     {
-        private readonly IWorker worker;
+        private readonly IStudentWorker worker;
 
-        public WorkerService(IWorker worker)
+        public StudentCSVFileWorkerService(IStudentWorker worker)
         {
             this.worker = worker;
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            await worker.AddStudents_BK_Worker_Process(cancellationToken);       
+            await worker.Generate_CSV_Students_File_BK_Worker_Process(cancellationToken);       
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)
