@@ -83,14 +83,14 @@ using MudBlazor;
 #line hidden
 #nullable disable
 #nullable restore
-#line 16 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\GLAcctData_.razor"
+#line 21 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\GLAcctData_.razor"
 using DataAccess.Models;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 17 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\GLAcctData_.razor"
+#line 22 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\GLAcctData_.razor"
 using DataAccess.DTO;
 
 #line default
@@ -105,7 +105,7 @@ using DataAccess.DTO;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 216 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\GLAcctData_.razor"
+#line 229 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\GLAcctData_.razor"
       
 
     // very first load of table for gl_postings,,, displays number of rows

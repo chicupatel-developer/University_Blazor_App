@@ -105,7 +105,7 @@ using DataAccess.DTO;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 213 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Student_.razor"
+#line 226 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Student_.razor"
       
 
 

@@ -53,8 +53,8 @@ namespace DataAccess.Services
                           select new TransactionSummary
                           {
                               GLACCTNO = g.Key,
-                              TotalCreditAmount = g.Sum(x => x.CreditAmount),
-                              TotalDebitAmount = g.Sum(x => x.DebitAmount)
+                              TotalCreditAmount = g.Sum(x => x.CreditAmount) ?? 0 ,
+                              TotalDebitAmount = g.Sum(x => x.DebitAmount) ?? 0
                           };
             if (results != null && results.Count() > 0)
             {

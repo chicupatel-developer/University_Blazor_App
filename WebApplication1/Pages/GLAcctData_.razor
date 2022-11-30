@@ -10,6 +10,11 @@
     .glpsDataTable {
         margin: 30px;
     }
+    .noData {
+        color: red;
+        font-size: x-large;
+        font-weight: bold;
+    }
 </style>
 
 @inject DataAccess.Contracts.IGLPostingService glPostingService
@@ -90,7 +95,7 @@
 
     <MudCard>
         <!-- transaction-summary for all selected-gl-postings -->
-        @if (glps_datas != null && glps_datas.Count() > 0)
+        @if (transactionSummary != null && transactionSummary.Count() > 0)
         {
             <MudTable Items="@transactionSummary"
                       Height="350px"
@@ -150,7 +155,11 @@
             <MudPaper>
                 <MudCard>
                     <MudCardContent>
-                        <MudText>Transaction Summary Data Not Available!</MudText>
+                        <MudText>
+                            <span class="noData">
+                                Transaction Summary Data Not Available!
+                            </span>
+                        </MudText>                        
                     </MudCardContent>
                 </MudCard>
             </MudPaper>
@@ -199,7 +208,11 @@
                 <MudPaper>
                     <MudCard>
                         <MudCardContent>
-                            <MudText>GLPS_Datas Not Available!</MudText>
+                            <MudText>
+                                <span class="noData">
+                                    GLPS_Datas Not Available!
+                                </span>                            
+                            </MudText>
                         </MudCardContent>
                     </MudCard>
                 </MudPaper>

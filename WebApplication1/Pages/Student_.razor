@@ -48,6 +48,11 @@
         background-color: black;
         padding: 10px;
     }
+    .noData {
+        color: red;
+        font-size: x-large;
+        font-weight: bold;
+    }
 </style>
 
 <h3>University-Students</h3>
@@ -134,7 +139,7 @@
 
     <MudCard>
         <!-- transaction-summary for all selected-students -->
-        @if (transactions != null && transactions.Count() > 0)
+        @if (transactionSummary != null && transactionSummary.Count() > 0)
         {
             <MudTable Items="@transactionSummary"
                       Height="350px"
@@ -157,7 +162,11 @@
             <MudPaper>
                 <MudCard>
                     <MudCardContent>
-                        <MudText>Transaction Summary Data Not Available!</MudText>
+                          <MudText>
+                              <span class="noData">
+                                  Transaction Summary Data Not Available!
+                              </span>                         
+                        </MudText>
                     </MudCardContent>
                 </MudCard>
             </MudPaper>
@@ -201,7 +210,11 @@
             <MudPaper>
                 <MudCard>
                     <MudCardContent>
-                        <MudText>Student-Transactions Data Not Available!</MudText>
+                        <MudText>
+                            <span class="noData">
+                                Student-Transactions Data Not Available!
+                            </span>                         
+                        </MudText>
                     </MudCardContent>
                 </MudCard>
             </MudPaper>
