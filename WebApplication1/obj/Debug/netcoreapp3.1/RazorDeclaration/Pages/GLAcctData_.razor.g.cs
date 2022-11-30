@@ -105,7 +105,7 @@ using DataAccess.DTO;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 229 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\GLAcctData_.razor"
+#line 234 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\GLAcctData_.razor"
       
 
     // very first load of table for gl_postings,,, displays number of rows
@@ -133,14 +133,15 @@ using DataAccess.DTO;
 
     protected override async Task OnInitializedAsync()
     {
-        GetAllGLPostings();
+        await GetAllGLPostings();
     }
-    private List<GL_Posting> GetAllGLPostings()
+    private async Task<List<GL_Posting>> GetAllGLPostings()
     {
-        gl_postings = glPostingService.GetAllGL_Postings();
+        gl_postings = await glPostingService.GetAllGL_Postings();
 
         return gl_postings;
     }
+
     private GL_Posting GetGL_Posting(int id)
     {
         gl_posting = glPostingService.GetGL_Posting(id);
@@ -149,6 +150,7 @@ using DataAccess.DTO;
     }
 
 
+    // click event @@ GL_Postings table
     private void ClickEvent(GL_Posting model)
     {
         // transaction-summary for all selected-gl-postings
@@ -210,7 +212,7 @@ using DataAccess.DTO;
     public enum SourceEnum { NONE, PJ, AB, CD, EF, JH }
     DateTime? fromTRDate = DateTime.Today;
     DateTime? toTRDate = DateTime.Today;
-    private void DoFilter(string sourceValue)
+    private async Task DoFilter(string sourceValue)
     {
         // reset for 2nd and 3rd tables
         // that depends on 1st table gl_postings
@@ -225,7 +227,8 @@ using DataAccess.DTO;
         if (sourceValue != "" && sourceValue != null)
             gl_postings = glPostingService.GetFilterGL_Postings(filterData);
         else
-            gl_postings = glPostingService.GetAllGL_Postings();
+            // gl_postings = await glPostingService.GetAllGL_Postings();
+            gl_postings = await glPostingService.GetAllGL_Postings();
     }
 
 

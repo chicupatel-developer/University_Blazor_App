@@ -63,6 +63,11 @@
 
 <h5>GL_Postings:</h5>
 <p></p>
+<h4>
+    <MudText Inline="true">
+        Selected items: @(selectedGL_Postings == null ? "" : string.Join(", ", selectedGL_Postings.OrderBy(x=>x.PostingsId).Select(x=>x.PostingsId)))
+    </MudText>
+</h4>
 <MudPaper Square="true" Class="d-flex justify-space-around">
     <!-- GL_Postings -->
     <MudTable Items="@gl_postings"
@@ -253,14 +258,15 @@
 
     protected override async Task OnInitializedAsync()
     {
-        GetAllGLPostings();
+        await GetAllGLPostings();
     }
-    private List<GL_Posting> GetAllGLPostings()
+    private async Task<List<GL_Posting>> GetAllGLPostings()
     {
-        gl_postings = glPostingService.GetAllGL_Postings();
+        gl_postings = await glPostingService.GetAllGL_Postings();
 
         return gl_postings;
     }
+
     private GL_Posting GetGL_Posting(int id)
     {
         gl_posting = glPostingService.GetGL_Posting(id);
@@ -269,6 +275,7 @@
     }
 
 
+    // click event @@ GL_Postings table
     private void ClickEvent(GL_Posting model)
     {
         // transaction-summary for all selected-gl-postings
@@ -330,7 +337,7 @@
     public enum SourceEnum { NONE, PJ, AB, CD, EF, JH }
     DateTime? fromTRDate = DateTime.Today;
     DateTime? toTRDate = DateTime.Today;
-    private void DoFilter(string sourceValue)
+    private async Task DoFilter(string sourceValue)
     {
         // reset for 2nd and 3rd tables
         // that depends on 1st table gl_postings
@@ -345,7 +352,8 @@
         if (sourceValue != "" && sourceValue != null)
             gl_postings = glPostingService.GetFilterGL_Postings(filterData);
         else
-            gl_postings = glPostingService.GetAllGL_Postings();
+            // gl_postings = await glPostingService.GetAllGL_Postings();
+            gl_postings = await glPostingService.GetAllGL_Postings();
     }
 
 

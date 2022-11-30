@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DataAccess.DTO;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace DataAccess.Services
 {
@@ -16,9 +18,9 @@ namespace DataAccess.Services
             _dbContext = context;
         }
      
-        public List<GL_Posting> GetAllGL_Postings()
+        public async Task<List<GL_Posting>> GetAllGL_Postings()
         {
-            return _dbContext.GL_Postings.ToList();
+            return await _dbContext.GL_Postings.ToListAsync();
         }   
         
         public GL_Posting GetGL_Posting(int id)
@@ -94,14 +96,14 @@ namespace DataAccess.Services
         {
             IEnumerable<GL_Posting> datas = _dbContext.GL_Postings;
 
-            if(filterData.Source!=null && filterData.Source!="" && filterData.Source != "NONE")
+            if (filterData.Source != null && filterData.Source != "" && filterData.Source != "NONE")
             {
-                datas = datas.Where(x => x.Source == filterData.Source );               
+                datas = datas.Where(x => x.Source == filterData.Source);
             }
-         
+
             if (filterData.FromTRDate != null && filterData.ToTRDate != null)
             {
-                datas = datas.Where(x=>x.TRDate.Date>=filterData.FromTRDate.Value.Date && x.TRDate.Date<=filterData.ToTRDate.Value.Date);             
+                datas = datas.Where(x => x.TRDate.Date >= filterData.FromTRDate.Value.Date && x.TRDate.Date <= filterData.ToTRDate.Value.Date);
             }
 
             return datas.ToList();
