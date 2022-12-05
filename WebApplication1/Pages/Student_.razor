@@ -134,6 +134,7 @@
 <MudPaper Square="true" Class="d-flex justify-space-around">
     <!-- students -->
     <MudTable Items="@students"
+              RowStyleFunc="FormatRowStyle"
               @ref="table"
               @onclick="@( (x) => ClickEvent(selectedStudents.LastOrDefault()))"
               Height="350px"
@@ -342,6 +343,7 @@
 
     private void ClickEvent(Student model)
     {
+
         // transaction-summary for all selected-students
         selectedIds = new HashSet<int>();
         foreach (var s in selectedStudents)
@@ -387,5 +389,13 @@
             return new List<Transaction>();
         }
     }
+
+
+
+    private string FormatRowStyle(Student selectedStudent, int index)
+    {
+        return "background-color:lightblue";
+    }
+
 }
 

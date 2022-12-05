@@ -105,7 +105,7 @@ using DataAccess.DTO;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 252 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Student_.razor"
+#line 253 "C:\BlazorApps\BlazorServerApp\WebApplication1\Pages\Student_.razor"
       
 
 
@@ -199,6 +199,7 @@ using DataAccess.DTO;
 
     private void ClickEvent(Student model)
     {
+
         // transaction-summary for all selected-students
         selectedIds = new HashSet<int>();
         foreach (var s in selectedStudents)
@@ -244,6 +245,14 @@ using DataAccess.DTO;
             return new List<Transaction>();
         }
     }
+
+
+
+    private string FormatRowStyle(Student selectedStudent, int index)
+    {
+        return "background-color:lightblue";
+    }
+
 
 #line default
 #line hidden

@@ -1,0 +1,17 @@
+C:\BlazorApps\BlazorServerApp\ConsoleApp\bin\Debug\netcoreapp3.1\ConsoleApp.exe
+C:\BlazorApps\BlazorServerApp\ConsoleApp\bin\Debug\netcoreapp3.1\ConsoleApp.deps.json
+C:\BlazorApps\BlazorServerApp\ConsoleApp\bin\Debug\netcoreapp3.1\ConsoleApp.runtimeconfig.json
+C:\BlazorApps\BlazorServerApp\ConsoleApp\bin\Debug\netcoreapp3.1\ConsoleApp.runtimeconfig.dev.json
+C:\BlazorApps\BlazorServerApp\ConsoleApp\bin\Debug\netcoreapp3.1\ConsoleApp.dll
+C:\BlazorApps\BlazorServerApp\ConsoleApp\bin\Debug\netcoreapp3.1\ConsoleApp.pdb
+C:\BlazorApps\BlazorServerApp\ConsoleApp\obj\Debug\netcoreapp3.1\ConsoleApp.AssemblyInfoInputs.cache
+C:\BlazorApps\BlazorServerApp\ConsoleApp\obj\Debug\netcoreapp3.1\ConsoleApp.AssemblyInfo.cs
+C:\BlazorApps\BlazorServerApp\ConsoleApp\obj\Debug\netcoreapp3.1\ConsoleApp.csproj.CoreCompileInputs.cache
+C:\BlazorApps\BlazorServerApp\ConsoleApp\obj\Debug\netcoreapp3.1\ConsoleApp.dll
+C:\BlazorApps\BlazorServerApp\ConsoleApp\obj\Debug\netcoreapp3.1\ConsoleApp.pdb
+C:\BlazorApps\BlazorServerApp\ConsoleApp\obj\Debug\netcoreapp3.1\ConsoleApp.genruntimeconfig.cache
+C:\BlazorApps\BlazorServerApp\ConsoleApp\bin\Debug\netcoreapp3.1\Student.EFCore.Context.dll
+C:\BlazorApps\BlazorServerApp\ConsoleApp\bin\Debug\netcoreapp3.1\Student.Service.dll
+C:\BlazorApps\BlazorServerApp\ConsoleApp\bin\Debug\netcoreapp3.1\Student.EFCore.Context.pdb
+C:\BlazorApps\BlazorServerApp\ConsoleApp\bin\Debug\netcoreapp3.1\Student.Service.pdb
+C:\BlazorApps\BlazorServerApp\ConsoleApp\obj\Debug\netcoreapp3.1\ConsoleApp.csproj.CopyComplete

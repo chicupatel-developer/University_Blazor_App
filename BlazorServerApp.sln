@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\Da
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIWorkerService", "APIWorkerService\APIWorkerService.csproj", "{1356FE14-8187-484F-AC77-A670A35AFD1D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{626E7459-0278-4020-8805-114009350BD5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{1356FE14-8187-484F-AC77-A670A35AFD1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1356FE14-8187-484F-AC77-A670A35AFD1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1356FE14-8187-484F-AC77-A670A35AFD1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{626E7459-0278-4020-8805-114009350BD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{626E7459-0278-4020-8805-114009350BD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{626E7459-0278-4020-8805-114009350BD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{626E7459-0278-4020-8805-114009350BD5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

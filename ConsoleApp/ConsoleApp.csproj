@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Student.EFCore.Context">
+      <HintPath>..\..\..\WebAPI_React\Student.API\Student.API\Student.Service\bin\Debug\netcoreapp3.1\Student.EFCore.Context.dll</HintPath>
+    </Reference>
+    <Reference Include="Student.Service">
+      <HintPath>..\..\..\WebAPI_React\Student.API\Student.API\Student.Service\bin\Debug\netcoreapp3.1\Student.Service.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

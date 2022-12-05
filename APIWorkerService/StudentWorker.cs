@@ -32,11 +32,11 @@ namespace APIWorkerService
         {
             bool flag = cancellationToken.IsCancellationRequested;
 
-            int count = 21;
+            int count = 1;
 
             // while (!cancellationToken.IsCancellationRequested)
             // while (!flag)
-            while (count<=30)
+            while (count<=10)
             {
                 if(studentService.AddStudent(new Student()
                 { 
@@ -47,7 +47,7 @@ namespace APIWorkerService
                 }))
                 {               
                     _logger.LogInformation("New Student Added To Database Successfully!");
-                    await Task.Delay(1 * 1000);
+                    await Task.Delay(3 * 1000);
                     // flag = true;
                     count++;
                 }
@@ -58,7 +58,7 @@ namespace APIWorkerService
                     // something goes wrong @ student-service, then stop adding
                     // further student @ db and return back from
                     // AddStudent async task here
-                    count = 31;
+                    count = 11;
                 }                
             }
         }
